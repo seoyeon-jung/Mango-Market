@@ -8,10 +8,17 @@ import Post from "../components/\bPost";
 import { useFocusEffect } from "@react-navigation/native";
 import { authService, dbService } from "../firebase.js";
 import { signOut } from "firebase/auth";
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 
 const My = ({ navigation: { navigate, setOptions, reset } }) => {
   const [posts, setPosts] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // 로그인 & 로그아웃 로직
   const logout = () => {
@@ -22,6 +29,32 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
       })
       .catch((error) => console.log(error));
   };
+  // 서버데이터 가져오기
+  const getPostDate = () => {
+    const q = query(
+      collection(dbService, "posts"),
+      orderBy("date"),
+      where("userId", "==", "4420")
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newPosts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPosts(newPosts);
+    });
+    return unsubscribe;
+  };
+
+  // refresh
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await getPostDate();
+    setIsRefreshing(false);
+    console.log("새로고침");
+  };
+
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
@@ -57,22 +90,10 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
         },
       });
 
-      const q = query(
-        collection(dbService, "posts"),
-        orderBy("date"),
-        where("userId", "==", "4420")
-      );
-
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const newPosts = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setPosts(newPosts);
-      });
-      return unsubscribe;
+      getPostDate();
     }, [])
   );
+
   return (
     <>
       <UserCardContainer>
@@ -87,9 +108,11 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
         <PostCounterLable>{posts.length} 개</PostCounterLable>
       </PostListLableContainer>
       <FlatList
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
         data={posts}
         renderItem={({ item }) => <Post item={item} />}
-        // keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id}
       />
     </>
   );
