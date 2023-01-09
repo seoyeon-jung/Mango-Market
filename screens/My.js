@@ -8,50 +8,8 @@ import Post from "../components/\bPost";
 import { useFocusEffect } from "@react-navigation/native";
 import { authService, dbService } from "../firebase.js";
 import { signOut } from "firebase/auth";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 
-const DUMMY_DATA = [
-  {
-    id: Math.random().toString(),
-    title: "망고",
-    price: "130,000원",
-    date: "22시간전",
-    img: "../assets/mango.png",
-    commentCounter: 3,
-  },
-  {
-    id: Math.random().toString(),
-    title: "사과",
-    price: "630,000원",
-    date: "24시간전",
-    img: "../assets/mango.png",
-    commentCounter: 1,
-  },
-  {
-    id: Math.random().toString(),
-    title: "테스트다",
-    price: "130,000원",
-    date: "2일전",
-    img: "../assets/mango.png",
-    commentCounter: 8,
-  },
-  {
-    id: Math.random().toString(),
-    title: "test2",
-    price: "9999원",
-    date: "7일전",
-    img: "../assets/mango.png",
-    commentCounter: 7,
-  },
-  {
-    id: Math.random().toString(),
-    title: "test2",
-    price: "9999원",
-    date: "7일전",
-    img: "../assets/mango.png",
-    commentCounter: 7,
-  },
-];
 const My = ({ navigation: { navigate, setOptions, reset } }) => {
   const [posts, setPosts] = useState([]);
 
@@ -98,24 +56,23 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
           );
         },
       });
-    })
+
+      const q = query(
+        collection(dbService, "posts"),
+        orderBy("date"),
+        where("userId", "==", "4420")
+      );
+
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        const newPosts = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPosts(newPosts);
+      });
+      return unsubscribe;
+    }, [])
   );
-
-  // 유저가 작성한 데이터 가져오기
-  useEffect(() => {
-    const q = query(collection(dbService, "posts"), orderBy("date"));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newPosts = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPosts(newPosts);
-    });
-    return unsubscribe;
-  }, []);
-
-  console.log(posts);
   return (
     <>
       <UserCardContainer>
@@ -127,7 +84,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
       </UserCardContainer>
       <PostListLableContainer>
         <PostListLableText>내가 작성한 글</PostListLableText>
-        <PostCounterLable>{DUMMY_DATA.length} 개</PostCounterLable>
+        <PostCounterLable>{posts.length} 개</PostCounterLable>
       </PostListLableContainer>
       <FlatList
         data={posts}

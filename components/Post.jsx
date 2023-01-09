@@ -17,7 +17,7 @@ const Post = ({ item }) => {
           ></PostImg>
           <PostDescContianer>
             <PostTitle>{item?.title}</PostTitle>
-            <PostDate>{item?.date}</PostDate>
+            <PostDate>{item?.date.seconds}</PostDate>
             <PostPrice>{item?.price}</PostPrice>
           </PostDescContianer>
           <CommentIconGroup>
