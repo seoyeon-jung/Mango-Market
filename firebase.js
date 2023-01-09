@@ -4,12 +4,13 @@ import { getAuth } from "firebase/auth"; // 아래 데이터는 본인의 Fireba
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyAK7lzrwqZnJtEVZdiniW4w0Tqps21bZFw",
+  authDomain: "ex-mango-app.firebaseapp.com",
+  projectId: "ex-mango-app",
+  storageBucket: "ex-mango-app.appspot.com",
+  messagingSenderId: "80849199493",
+  appId: "1:80849199493:web:c294663cc908d8c2b8e4ec",
+  measurementId: "G-VJVKVZ4LBE"
 };
 
 export const storage = getStorage(app);
