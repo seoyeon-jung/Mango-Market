@@ -11,7 +11,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         <StatusBar />
-        {/* <Login /> */}
         <Root />
       </NavigationContainer>
     </QueryClientProvider>

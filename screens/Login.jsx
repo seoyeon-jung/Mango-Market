@@ -62,7 +62,6 @@ export default function Login({
     // 2. login
     signInWithEmailAndPassword(authService, email, pw)
       .then(() => {
-        console.log("로그인 성공");
         setEmail("");
         setPW("");
         navigate("Home");
@@ -90,7 +89,6 @@ export default function Login({
     // 2. register
     createUserWithEmailAndPassword(authService, email, pw)
       .then(() => {
-        console.log("회원가입 성공");
         setEmail("");
         setPW("");
         goBack();

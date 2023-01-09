@@ -24,15 +24,11 @@ export default function Stacks({
       navigate("Login");
     }
   };
+
   return (
     <NativeStack.Navigator
       screenOptions={{
         headerTitleAlign: "center",
-        headerLeft: () => {
-          <TouchableOpacity onPress={() => goBack()}>
-            <Text>뒤로</Text>
-          </TouchableOpacity>;
-        },
         headerRight: () => {
           return (
             <TouchableOpacity onPress={handleAuth}>
