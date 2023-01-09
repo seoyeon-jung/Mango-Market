@@ -9,7 +9,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import My from "../screens/My";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text } from "react-native";
-// import { authService } from "../firebase";
 
 const Tab = createBottomTabNavigator();
 

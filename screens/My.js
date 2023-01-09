@@ -5,8 +5,9 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { GRAY_COLOR, MANGO_COLOR } from "../colors";
 
 import Post from "../components/\bPost";
-// import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect } from "@react-navigation/native";
 import { authService } from "../firebase.js";
+import { signOut } from "firebase/auth";
 
 const DUMMY_DATA = [
   {
@@ -50,20 +51,66 @@ const DUMMY_DATA = [
     commentCounter: 7,
   },
 ];
-const My = () => {
-  console.log(authService.currentUser);
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (!authService.currenUser) {
+const My = ({ navigation: { navigate, setOptions, reset } }) => {
 
-  //     }
-  //   })
-  // )
+  // 로그인 & 로그아웃 로직
+  const logout = () => {
+    signOut(authService)
+      .then(() => {
+        console.log("로그아웃 성공");
+        navigate("Home");
+      })
+      .catch((error) => console.log(error));
+  };
+  useFocusEffect(
+    useCallback(() => {
+      if (!authService.currentUser) {
+        // 로그인 X
+        reset({
+          index: 1,
+          routes: [
+            {
+              name: "Tabs",
+              params: {
+                screen: "Home",
+              },
+            },
+            {
+              name: "Stacks",
+              params: {
+                screen: "Login",
+              },
+            },
+          ],
+        });
+        return;
+      }
+
+      // login O
+      setOptions({
+        headerRight: () => {
+          return (
+            <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
+              <Text>로그아웃</Text>
+            </TouchableOpacity>
+          );
+        },
+      });
+    })
+  );
+
+  // 유저가 작성한 데이터 가져오기 
+
+
+  
+
   return (
     <>
       <UserCardContainer>
         <UserCard>
-          <UserIntroduce>안녕하세요 망고 님 </UserIntroduce>
+          <UserIntroduce>
+            안녕하세요 {authService.currentUser.uid.slice(0,4)} 님{" "}
+          </UserIntroduce>
         </UserCard>
       </UserCardContainer>
       <PostListLableContainer>
