@@ -1,27 +1,28 @@
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import styled from "@emotion/native";
-import { SCREEN_WIDTH } from '../util';
+import { SCREEN_WIDTH } from "../util";
 import { EvilIcons } from "@expo/vector-icons";
 import { GRAY_COLOR, MANGO_COLOR } from "../colors";
 
 const Post = ({ item }) => {
+  console.log(item);
   return (
     <TouchableOpacity>
       <PostView>
         <PostContainer>
           <PostImg
             // style={{ width: 60, height: 80 }}
-            source={require("../assets/mango.png")}
+            source={item?.img}
           ></PostImg>
           <PostDescContianer>
-            <PostTitle>{item.title}</PostTitle>
-            <PostDate>{item.date}</PostDate>
-            <PostPrice>{item.price}</PostPrice>
+            <PostTitle>{item?.title}</PostTitle>
+            <PostDate>{item?.date}</PostDate>
+            <PostPrice>{item?.price}</PostPrice>
           </PostDescContianer>
           <CommentIconGroup>
             <EvilIcons name="comment" size={24} color="#c0c0c0" />
-            <CommentCounterText>{item.commentCounter}</CommentCounterText>
+            <CommentCounterText>{item?.commentCounter}</CommentCounterText>
           </CommentIconGroup>
         </PostContainer>
       </PostView>

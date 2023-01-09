@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
@@ -6,8 +6,9 @@ import { GRAY_COLOR, MANGO_COLOR } from "../colors";
 
 import Post from "../components/\bPost";
 import { useFocusEffect } from "@react-navigation/native";
-import { authService } from "../firebase.js";
+import { authService, dbService } from "../firebase.js";
 import { signOut } from "firebase/auth";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 
 const DUMMY_DATA = [
   {
@@ -52,6 +53,7 @@ const DUMMY_DATA = [
   },
 ];
 const My = ({ navigation: { navigate, setOptions, reset } }) => {
+  const [posts, setPosts] = useState([]);
 
   // 로그인 & 로그아웃 로직
   const logout = () => {
@@ -99,17 +101,27 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
     })
   );
 
-  // 유저가 작성한 데이터 가져오기 
+  // 유저가 작성한 데이터 가져오기
+  useEffect(() => {
+    const q = query(collection(dbService, "posts"), orderBy("date"));
 
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newPosts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPosts(newPosts);
+    });
+    return unsubscribe;
+  }, []);
 
-  
-
+  console.log(posts);
   return (
     <>
       <UserCardContainer>
         <UserCard>
           <UserIntroduce>
-            안녕하세요 {authService.currentUser.uid.slice(0,4)} 님{" "}
+            안녕하세요 {authService.currentUser.uid.slice(0, 4)} 님{" "}
           </UserIntroduce>
         </UserCard>
       </UserCardContainer>
@@ -118,8 +130,9 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
         <PostCounterLable>{DUMMY_DATA.length} 개</PostCounterLable>
       </PostListLableContainer>
       <FlatList
-        data={DUMMY_DATA}
+        data={posts}
         renderItem={({ item }) => <Post item={item} />}
+        // keyExtractor={(item) => item.id}
       />
     </>
   );

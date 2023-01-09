@@ -16,12 +16,12 @@ import {
 } from "@react-navigation/native";
 import { darkTheme, lightTheme } from "./theme";
 import Root from "./navigations/Root";
-import { authService } from "./firebase";
+
 
 export default function App() {
   const isDark = useColorScheme() === "dark";
-  console.log(authService);
-  console.log(isDark);
+  // console.log(authService);
+  // console.log(isDark);
   return (
     // <QueryClientProvider client={queryClient}>
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
