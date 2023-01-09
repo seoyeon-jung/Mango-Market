@@ -5,13 +5,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { authService } from "../firebase";
 import { emailRegex, pwRegex, SCREEN_WIDTH } from "../util";
-import {
-  TextInput,
-  TouchableOpacity,
-  Text,
-  View,
-  SafeAreaView,
-} from "react-native";
+import styled from "@emotion/native";
 
 export default function Login({
   navigation: { navigate, goBack, setOptions },
@@ -108,27 +102,100 @@ export default function Login({
   }, []);
 
   return (
-    <SafeAreaView>
-      <TextInput
+    <LoginForm>
+      <Header style={{ flexDirection: "row" }}>
+        <HeaderImg source={require("../assets/mango.png")} />
+        <HeaderText>망고 마켓</HeaderText>
+      </Header>
+
+      <InputHeader style={{ flexDirection: "row" }}>
+        <InputImg source={require("../assets/mango.png")} />
+        <Text>이메일</Text>
+      </InputHeader>
+      <InputBox
         ref={emailRef}
         onChangeText={(text) => setEmail(text)}
         textContentType="emailAddress"
-        placeholder="email을 입력하세요"
       />
-      <TextInput
+
+      <InputHeader style={{ flexDirection: "row" }}>
+        <InputImg source={require("../assets/mango.png")} />
+        <Text>비밀번호</Text>
+      </InputHeader>
+      <InputBox
         ref={pwRef}
         onChangeText={(text) => setPW(text)}
         textContentType="password"
         returnKeyType="send"
         secureTextEntry={true}
-        placeholder="비밀번호를 입력하세요"
       />
-      <TouchableOpacity onPress={userLogin}>
-        <Text>로그인</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={userRegister}>
-        <Text>회원가입</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      <LoginBtn onPress={userLogin}>
+        <LoginText>로그인</LoginText>
+      </LoginBtn>
+      <RegisterBtn onPress={userRegister}>
+        <RegisterText>회원가입</RegisterText>
+      </RegisterBtn>
+    </LoginForm>
   );
 }
+
+const LoginForm = styled.View`
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+  background-color: #fff;
+`;
+
+const LoginBtn = styled.TouchableOpacity`
+  width: ${SCREEN_WIDTH / 2 + "px"};
+  border-radius: 20px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ffcd48;
+  margin-bottom: 14px;
+`;
+
+const RegisterBtn = styled(LoginBtn)``;
+
+const LoginText = styled.Text`
+  font-size: 15px;
+`;
+
+const RegisterText = styled(LoginText)``;
+
+const InputBox = styled.TextInput`
+  background-color: white;
+  border: 2px solid #ffcd48;
+  margin-bottom: 18px;
+  width: ${SCREEN_WIDTH / 1.5 + "px"};
+  height: 40px;
+  border-radius: 10px;
+`;
+
+const Header = styled.View`
+  margin-bottom: 50px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HeaderImg = styled.Image`
+  width: 40px;
+  height: 40px;
+`;
+
+const HeaderText = styled.Text`
+  font-size: 30px;
+`;
+
+const InputHeader = styled.View`
+  align-items: flex-start;
+  justify-content: flex-start;
+`;
+
+const InputImg = styled.Image`
+  width: 20px;
+  height: 20px;
+`;

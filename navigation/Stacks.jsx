@@ -16,7 +16,6 @@ export default function Stacks({
       // logout 요청
       signOut(authService)
         .then(() => {
-          console.log("로그아웃 성공");
           setOptions({ headerRight: null });
         })
         .catch((error) => console.log("error: ", error));
@@ -38,7 +37,7 @@ export default function Stacks({
         },
       }}
     >
-      <NativeStack.Screen name="Login" component={Login} />
+      <NativeStack.Screen name="로그인" component={Login} />
       <NativeStack.Screen name="Detail" component={Detail} />
     </NativeStack.Navigator>
   );
