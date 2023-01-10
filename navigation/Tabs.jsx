@@ -5,6 +5,7 @@ import User from "../screens/User";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import My from '../screens/My';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +47,7 @@ export default function Tabs() {
           ),
         }}
         name="User"
-        component={User}
+        component={My}
       />
     </Tab.Navigator>
   );
