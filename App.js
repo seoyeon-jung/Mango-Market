@@ -1,36 +1,24 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  useColorScheme,
-} from "react-native";
-import styled from "@emotion/css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Root from "./navigation/Root";
+import Login from "./screens/Login";
 import My from "./screens/My";
-import {
-  NavigationContainer,
-  ThemeProvider,
-  DefaultTheme,
-} from "@react-navigation/native";
-import { darkTheme, lightTheme } from "./theme";
-import Root from "./navigations/Root";
 
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const isDark = useColorScheme() === "dark";
   // console.log(authService);
   // console.log(isDark);
   return (
-    // <QueryClientProvider client={queryClient}>
-    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-      <NavigationContainer theme={isDark ? darkTheme : DefaultTheme}>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <StatusBar />
         <Root />
-        <StatusBar style="auto" />
       </NavigationContainer>
-    </ThemeProvider>
-    // </QueryClientProvider>
+    </QueryClientProvider>
   );
 }
 
