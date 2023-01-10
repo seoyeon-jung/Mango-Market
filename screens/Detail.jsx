@@ -14,9 +14,9 @@ export default function Detail({ navigation: { reset } }) {
           index: 1,
           routes: [
             {
-              name: "Stacks",
+              name: "Tabs",
               params: {
-                screen: "Detail",
+                screen: "Home",
               },
             },
             {
