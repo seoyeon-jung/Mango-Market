@@ -103,10 +103,8 @@ const Header = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex:1
-  height:${SCREEN_HEIGHT / 8 + "px"};
-
-
+  flex: 1;
+  height: ${SCREEN_HEIGHT / 8 + "px"};
 `;
 const TitleText = styled.Text`
   text-shadow: 1px 2px 2px;
