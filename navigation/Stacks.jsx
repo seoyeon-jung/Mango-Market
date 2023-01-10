@@ -16,12 +16,10 @@ export default function Stacks({
       // logout 요청
       signOut(authService)
         .then(() => {
-          console.log("로그아웃 성공");
           setOptions({ headerRight: null });
           navigate("Login");
         })
         .catch((error) => console.log("error: ", error));
-      
     } else {
       navigate("Login");
     }
@@ -31,6 +29,11 @@ export default function Stacks({
     <NativeStack.Navigator
       screenOptions={{
         headerTitleAlign: "center",
+        headerLeft: () => {
+          <TouchableOpacity onPress={() => goBack()}>
+            <Text>뒤로</Text>
+          </TouchableOpacity>;
+        },
         headerRight: () => {
           return (
             <TouchableOpacity onPress={handleAuth}>
