@@ -18,8 +18,10 @@ export default function Stacks({
         .then(() => {
           console.log("로그아웃 성공");
           setOptions({ headerRight: null });
+          navigate("Login");
         })
         .catch((error) => console.log("error: ", error));
+      
     } else {
       navigate("Login");
     }

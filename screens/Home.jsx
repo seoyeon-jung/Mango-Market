@@ -11,6 +11,7 @@ import {
   ScrollView,
   Image,
   FlatList,
+  SafeAreaView,
 } from "react-native";
 import {
   collection,
@@ -29,8 +30,8 @@ export default function Home({ navigation: { navigate, reset } }) {
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
-      orderBy("date"),
-      where("isDone", "==", false)
+      orderBy("date")
+      // where("isDone", "==", false)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -77,25 +78,27 @@ export default function Home({ navigation: { navigate, reset } }) {
   };
 
   return (
-    <FlatList
-      style={{ backgroundColor: "white" }}
-      refreshing={isRefreshing}
-      onRefresh={onRefresh}
-      data={posts}
-      renderItem={({ item }) => <Post item={item} />}
-      keyExtractor={(item) => item.id}
-      ListHeaderComponent={
-        <Header>
-          <Image
-            style={{ width: 40, height: 40 }}
-            source={{
-              uri: "https://i.ibb.co/gvpPs61/image.png",
-            }}
-          />
-          <TitleText>망고마켓</TitleText>
-        </Header>
-      }
-    />
+    <SafeAreaView>
+      <FlatList
+        style={{ backgroundColor: "white" }}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+        data={posts}
+        renderItem={({ item }) => <Post item={item} />}
+        keyExtractor={(item) => item.id}
+        ListHeaderComponent={
+          <Header>
+            <Image
+              style={{ width: 40, height: 40 }}
+              source={{
+                uri: "https://i.ibb.co/gvpPs61/image.png",
+              }}
+            />
+            <TitleText>망고마켓</TitleText>
+          </Header>
+        }
+      />
+    </SafeAreaView>
   );
 }
 const Header = styled.View`
