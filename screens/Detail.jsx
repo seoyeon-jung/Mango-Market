@@ -21,8 +21,8 @@ const Detail = (props) => {
   const [price, setPrice] = useState("");
   const { navigate } = useNavigation();
   const currentId = authService.currentUser.email;
-  const detailItemId = props.route.params.postId;
-  console.log("detailItemId", detailItemId);
+  const itemId = props.route.params.postId;
+  const userId = props.route.params.userId;
   const newBoard = {
     userId: currentId,
     title,
@@ -35,7 +35,7 @@ const Detail = (props) => {
 
   useEffect(() => {
     const getData = async () => {
-      const docRef = doc(dbService, "posts", detailItemId);
+      const docRef = doc(dbService, "posts", itemId);
       const docSnap = await getDoc(docRef);
 
       const newDetailItem = {
@@ -54,7 +54,7 @@ const Detail = (props) => {
       return;
     }
 
-    await updateDoc(doc(dbService, "posts", detailItemId), {
+    await updateDoc(doc(dbService, "posts", itemId), {
       ...newBoard,
     });
     setDetailItem(newBoard);
@@ -74,7 +74,7 @@ const Detail = (props) => {
         text: "삭제",
         style: "destructive",
         onPress: async () => {
-          await deleteDoc(doc(dbService, "posts", detailItemId));
+          await deleteDoc(doc(dbService, "posts", itemId));
           navigate("Home");
         },
       },
@@ -145,9 +145,7 @@ const Detail = (props) => {
           </TitleBox>
         )}
       </View>
-
       <Text style={{ marginTop: 10 }}> 글 작성 날짜 : {detailItem.date} </Text>
-
       <View style={{ marginTop: 10 }}>
         <Text> 내용 </Text>
         {detailItem.isEdit === true ? (
@@ -164,35 +162,39 @@ const Detail = (props) => {
           </ContentBox>
         )}
       </View>
-      <BtnContainer>
-        {detailItem.isEdit === true ? (
-          <>
-            <CustomBtn
-              btnText="완료"
-              detailItem={detailItem}
-              handler={updateBoard}
-            />
-            <CustomBtn
-              btnText="취소"
-              detailItem={detailItem}
-              handler={setEdit}
-            />
-          </>
-        ) : (
-          <>
-            <CustomBtn
-              btnText="수정"
-              detailItem={detailItem}
-              handler={setEdit}
-            />
-            <CustomBtn
-              btnText="삭제"
-              detailItem={detailItem}
-              handler={deleteBoard}
-            />
-          </>
-        )}
-      </BtnContainer>
+      {userId === currentId ? (
+        <BtnContainer>
+          {detailItem.isEdit === true ? (
+            <>
+              <CustomBtn
+                btnText="완료"
+                detailItem={detailItem}
+                handler={updateBoard}
+              />
+              <CustomBtn
+                btnText="취소"
+                detailItem={detailItem}
+                handler={setEdit}
+              />
+            </>
+          ) : (
+            <>
+              <CustomBtn
+                btnText="수정"
+                detailItem={detailItem}
+                handler={setEdit}
+              />
+              <CustomBtn
+                btnText="삭제"
+                detailItem={detailItem}
+                handler={deleteBoard}
+              />
+            </>
+          )}
+        </BtnContainer>
+      ) : (
+        <BtnContainer></BtnContainer>
+      )}
     </DetailContainer>
   );
 };

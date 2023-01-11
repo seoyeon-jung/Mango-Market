@@ -10,7 +10,7 @@ const Post = ({ item }) => {
   const moveToDetail = () => {
     navigate("Stacks", {
       screen: "Detail",
-      params: { postId: item.id },
+      params: { postId: item.id, userId: item.userId },
     });
   };
   // 날짜 계산
