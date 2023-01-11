@@ -17,14 +17,12 @@ const Write = () => {
   const currentId = authService.currentUser.email;
   let today = new Date();
 
-  console.log(today.toLocaleDateString());
-
   const newBoard = {
     userId: currentId,
     title,
     content,
     price,
-    date: today,
+    date: today.toLocaleDateString(),
     isDone: false,
     isEdit: false,
     img,
