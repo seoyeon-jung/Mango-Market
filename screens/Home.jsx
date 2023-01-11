@@ -4,6 +4,11 @@ import { signOut } from "firebase/auth";
 import React, { useCallback } from "react";
 import { useState } from "react";
 import {
+  View,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  ScrollView,
   Image,
   FlatList,
   SafeAreaView,
@@ -18,6 +23,7 @@ import {
 import { authService, dbService } from "../firebase.js";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
+import { useQuery } from "react-query";
 
 export default function Home({ navigation: { navigate, reset } }) {
   const [posts, setPosts] = useState([]);
@@ -25,8 +31,8 @@ export default function Home({ navigation: { navigate, reset } }) {
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
-      orderBy("date")
-      // where("isDone", "==", false)
+      orderBy("date", "desc"),
+      where("isDone", "==", false)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -74,34 +80,31 @@ export default function Home({ navigation: { navigate, reset } }) {
 
   return (
     <SafeAreaView>
+      <Header>
+        <Image
+          style={{ width: 40, height: 40 }}
+          source={{
+            uri: "https://i.ibb.co/gvpPs61/image.png",
+          }}
+        />
+        <TitleText>망고마켓</TitleText>
+      </Header>
       <FlatList
-        style={{ backgroundColor: "white" }}
+        style={{ marginBottom: 100 }}
         refreshing={isRefreshing}
         onRefresh={onRefresh}
         data={posts}
         renderItem={({ item }) => <Post item={item} />}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <Header>
-            <Image
-              style={{ width: 40, height: 40 }}
-              source={{
-                uri: "https://i.ibb.co/gvpPs61/image.png",
-              }}
-            />
-            <TitleText>망고마켓</TitleText>
-          </Header>
-        }
       />
     </SafeAreaView>
   );
 }
 const Header = styled.View`
-  margin-right: 30px;
+  background-color: white;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex: 1;
   height: ${SCREEN_HEIGHT / 8 + "px"};
 `;
 const TitleText = styled.Text`
@@ -109,8 +112,4 @@ const TitleText = styled.Text`
   font-size: 40px;
   font-weight: 5;
   color: #f4cd43;
-`;
-const ConTainer = styled.View`
-  height: ${SCREEN_HEIGHT + "px"};
-  background-color: white;
 `;

@@ -41,7 +41,9 @@ const Post = ({ item }) => {
           <PostDescContianer>
             <PostTitle>{item?.title}</PostTitle>
             <PostDate>{nowDate}</PostDate>
-            <PostPrice>{item?.price}</PostPrice>
+            <PostPrice>
+              {item?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+            </PostPrice>
           </PostDescContianer>
         </PostContainer>
       </PostView>
@@ -57,7 +59,7 @@ const PostView = styled.View`
   padding: 16px;
   width: ${SCREEN_WIDTH};
   height: 150px;
-  background-color: #f4cd43;
+  background-color: white;
   border-radius: 8px;
 `;
 const PostContainer = styled.View`
