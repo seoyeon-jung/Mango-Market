@@ -24,7 +24,6 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
   const logout = () => {
     signOut(authService)
       .then(() => {
-        console.log("로그아웃 성공");
         navigate("Home");
       })
       .catch((error) => console.log(error));
