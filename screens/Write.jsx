@@ -11,6 +11,7 @@ import { useRef, useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { dbService } from "../firebase";
 import { authService } from "../firebase";
+import * as ImagePicker from "expo-image-picker";
 
 const brandColor = "#ffc800";
 
