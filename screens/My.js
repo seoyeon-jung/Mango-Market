@@ -4,7 +4,7 @@ import styled from "@emotion/native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../util";
 import { GRAY_COLOR, MANGO_COLOR } from "../colors";
 
-import Post from "../components/\bPost";
+import Post from "../components/Post";
 import { useFocusEffect } from "@react-navigation/native";
 import { authService, dbService } from "../firebase.js";
 import { signOut } from "firebase/auth";

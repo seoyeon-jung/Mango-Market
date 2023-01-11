@@ -34,7 +34,7 @@ const Post = ({ item }) => {
           <PostImg
             //style={{ width: 60, height: 80 }}
             source={{
-              uri: item.imgURL,
+              uri: item.img,
             }}
           ></PostImg>
           <PostDescContianer>
