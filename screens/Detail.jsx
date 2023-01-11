@@ -5,9 +5,12 @@ import { doc, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
 import { dbService } from "../firebase";
 import { Alert } from "react-native";
 import { authService } from "../firebase";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
+
 
 const brandColor = "#ffc800";
 
@@ -32,6 +35,31 @@ const Detail = (props) => {
     isEdit: false,
     img,
   };
+  useFocusEffect(
+    useCallback(() => {
+      if (!authService.currentUser) {
+        // 로그인 X
+        reset({
+          index: 1,
+          routes: [
+            {
+              name: "Tabs",
+              params: {
+                screen: "Home",
+              },
+            },
+            {
+              name: "Stacks",
+              params: {
+                screen: "Login",
+              },
+            },
+          ],
+        });
+        return;
+      }
+    }, [])
+  );
 
   useEffect(() => {
     const getData = async () => {
