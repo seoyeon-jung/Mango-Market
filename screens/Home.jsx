@@ -106,7 +106,6 @@ const Header = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex: 1;
   height: ${SCREEN_HEIGHT / 8 + "px"};
 `;
 const TitleText = styled.Text`

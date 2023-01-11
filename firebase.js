@@ -4,12 +4,13 @@ import { getAuth } from "firebase/auth"; // 아래 데이터는 본인의 Fireba
 // import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCPs7KOpmhVSLiroAqztRrNcQMCs5jDD6I",
-  authDomain: "react-native-e5dcd.firebaseapp.com",
-  projectId: "react-native-e5dcd",
-  storageBucket: "react-native-e5dcd.appspot.com",
-  messagingSenderId: "976058217062",
-  appId: "1:976058217062:web:2189d8b179f4d0fbb5f3a7",
+  apiKey: "AIzaSyBeDwSdfEaxOXoniW6dUBmjyWvirK4vEk0",
+  authDomain: "team-native-9d7c4.firebaseapp.com",
+  projectId: "team-native-9d7c4",
+  storageBucket: "team-native-9d7c4.appspot.com",
+  messagingSenderId: "704784016110",
+  appId: "1:704784016110:web:abcfd2dd9ba3008247c9ff",
+  measurementId: "G-M93LV0N92G",
 };
 
 // export const storage = getStorage(app);
