@@ -20,6 +20,8 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  let userCurrentId = authService.currentUser.email;
+  console.log(userCurrentId);
   // 로그인 & 로그아웃 로직
   const logout = () => {
     signOut(authService)
@@ -34,7 +36,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
     const q = query(
       collection(dbService, "posts"),
       orderBy("date"),
-      where("userId", "==", "4420")
+      where("userId", "==", userCurrentId)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -99,7 +101,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
       <UserCardContainer>
         <UserCard>
           <UserIntroduce>
-            안녕하세요 {authService.currentUser.uid.slice(0, 4)} 님{" "}
+            안녕하세요 {authService.currentUser.email.split("@")[0]} 님{" "}
           </UserIntroduce>
         </UserCard>
       </UserCardContainer>

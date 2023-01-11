@@ -16,13 +16,14 @@ const Write = () => {
   );
   const currentId = authService.currentUser.email;
   let today = new Date();
+  // today.toLocaleDateString() + " " + today.toLocaleTimeString(),
 
   const newBoard = {
     userId: currentId,
     title,
     content,
     price,
-    date: today.toLocaleDateString(),
+    date: new Date(),
     isDone: false,
     isEdit: false,
     img,

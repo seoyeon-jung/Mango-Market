@@ -26,20 +26,21 @@ const Post = ({ item }) => {
     if (days < 7) return `${Math.floor(days)}일 전`;
   };
 
-  // const nowDate = detailDate(new Date(item.createdAt));
+  const nowDate = detailDate(new Date(item.date.toDate()));
+  console.log(new Date(), nowDate);
   return (
     <TouchableOpacity onPress={moveToDetail}>
       <PostView>
         <PostContainer>
           <PostImg
-            //style={{ width: 60, height: 80 }}
+            // style={{ width: 60, height: 80 }}
             source={{
               uri: item.img,
             }}
           ></PostImg>
           <PostDescContianer>
             <PostTitle>{item?.title}</PostTitle>
-            <PostDate>{item?.date.seconds}</PostDate>
+            <PostDate>{nowDate}</PostDate>
             <PostPrice>{item?.price}</PostPrice>
           </PostDescContianer>
         </PostContainer>

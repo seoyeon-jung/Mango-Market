@@ -4,11 +4,6 @@ import { signOut } from "firebase/auth";
 import React, { useCallback } from "react";
 import { useState } from "react";
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  ScrollView,
   Image,
   FlatList,
   SafeAreaView,

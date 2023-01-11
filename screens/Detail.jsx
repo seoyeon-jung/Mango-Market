@@ -11,7 +11,6 @@ import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
 
-
 const brandColor = "#ffc800";
 
 const Detail = (props) => {
@@ -112,6 +111,18 @@ const Detail = (props) => {
   const setEdit = async (detailItem) => {
     setDetailItem({ ...detailItem, isEdit: !detailItem.isEdit });
   };
+  const dateString = (date) => {
+    if (date) {
+      return (
+        date.toDate().toLocaleDateString() +
+        " " +
+        date.toDate().toLocaleTimeString()
+      );
+    }
+  };
+
+  // .toLocaleDateString() + " " + today.toLocaleTimeString()
+  console.log(dateString(detailItem.date));
 
   return (
     <DetailContainer>
@@ -173,7 +184,11 @@ const Detail = (props) => {
           </TitleBox>
         )}
       </View>
-      <Text style={{ marginTop: 10 }}> 글 작성 날짜 : {detailItem.date} </Text>
+      {/* {detailItem.date} */}
+      <Text style={{ marginTop: 10 }}>
+        {" "}
+        글 작성 날짜 : {dateString(detailItem.date)}
+      </Text>
       <View style={{ marginTop: 10 }}>
         <Text> 내용 </Text>
         {detailItem.isEdit === true ? (
