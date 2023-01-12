@@ -21,12 +21,18 @@ import {
 } from "firebase/firestore";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
+import styled from "@emotion/native";
+import { MANGO_COLOR } from "../colors";
 
-function Comments({ postId }, props) {
+function Comments({ postId }) {
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [editText, setEditText] = useState("");
+
+  // style state
+  const [isTextFocused, setIsTextFocused] = useState(false);
+  const [isEditFocused, setIsEditFocused] = useState(false);
 
   const addComments = async () => {
     if (!text) {
@@ -103,28 +109,38 @@ function Comments({ postId }, props) {
   }, []);
 
   return (
-    <>
-      <View>
-        <TextInput
-          style={{ borderWidth: 1, marginTop: 20 }}
+    <CommentContainer>
+      <CommentHeader>댓글</CommentHeader>
+
+      <CommentInputBox>
+        <CommentInput
+          onBlur={() => {
+            setIsTextFocused(false);
+          }}
+          onFocus={() => setIsTextFocused(true)}
+          isTextFocused={isTextFocused}
           value={text}
           onChangeText={setText}
         />
-      </View>
-      <TouchableOpacity onPress={addComments}>
-        <Text>완료</Text>
-      </TouchableOpacity>
+        <CommentBtn onPress={addComments}>
+          <BtnText>등록</BtnText>
+        </CommentBtn>
+      </CommentInputBox>
 
-      <View>
+      <CommentList>
         {comments.map((item) => {
           return (
-            <View
+            <CommentItem
               key={item.id}
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
               {item.isEdit ? (
-                <TextInput
-                  style={{ backgroundColor: "white" }}
+                <CommentEditInput
+                  onBlur={() => {
+                    setIsEditFocused(false);
+                  }}
+                  onFocus={() => setIsEditFocused(true)}
+                  isTextFocused={isEditFocused}
                   onChangeText={setEditText}
                   onSubmitEditing={() => editComment(item.id)}
                   defaultValue={item.comment}
@@ -132,7 +148,7 @@ function Comments({ postId }, props) {
               ) : (
                 <Text>{item.comment}</Text>
               )}
-              {/* <Text>{item.comment}</Text> */}
+
               {authService.currentUser.uid === item.userId ? (
                 <View
                   style={{
@@ -143,25 +159,94 @@ function Comments({ postId }, props) {
                     <Feather
                       style={{ marginLeft: 10 }}
                       name="edit"
-                      size={24}
-                      color="black"
+                      size={20}
+                      color="#c0c0c0"
                     />
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => deleteComments(item.id)}>
                     <AntDesign
                       style={{ marginLeft: 10 }}
                       name="delete"
-                      size={24}
-                      color="black"
+                      size={20}
+                      color="#c0c0c0"
                     />
                   </TouchableOpacity>
                 </View>
               ) : null}
-            </View>
+            </CommentItem>
           );
         })}
-      </View>
-    </>
+      </CommentList>
+    </CommentContainer>
   );
 }
+
+const CommentContainer = styled.View`
+  width: 95%;
+  //border: 1px solid black;
+  padding: 10px 15px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+`;
+
+const CommentHeader = styled.Text`
+  font-size: 20px;
+`;
+
+const CommentInputBox = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+`;
+
+const CommentInput = styled.TextInput`
+  height: 40px;
+  width: 80%;
+  border-bottom-width: 3px;
+  border-color: ${(props) => {
+    if (props.isTextFocused) {
+      return MANGO_COLOR;
+    } else {
+      return "#d1d1d1";
+    }
+  }};
+  padding: 10px;
+`;
+
+const CommentBtn = styled.TouchableOpacity`
+  background-color: ${MANGO_COLOR};
+  width: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
+
+const BtnText = styled.Text`
+  color: white;
+`;
+
+const CommentList = styled.View``;
+
+const CommentItem = styled.View`
+  margin: 7px;
+  background-color: #d1d1d11b;
+  padding: 15px;
+  border-radius: 5px;
+`;
+
+const CommentEditInput = styled.TextInput`
+  height: 34px;
+  width: 80%;
+  border-bottom-width: 3px;
+  border-color: ${(props) => {
+    if (props.isEditFocused) {
+      return MANGO_COLOR;
+    } else {
+      return "#d1d1d1";
+    }
+  }};
+  padding: 10px;
+`;
+
 export default Comments;
