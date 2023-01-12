@@ -16,6 +16,7 @@ import {
 import { authService, dbService } from "../firebase.js";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
+import { useQuery } from "react-query";
 
 export default function Home({ navigation: { navigate, reset } }) {
   const [posts, setPosts] = useState([]);
@@ -24,8 +25,8 @@ export default function Home({ navigation: { navigate, reset } }) {
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
-      orderBy("date")
-      // where("isDone", "==", false)
+      orderBy("date", "desc"),
+      where("isDone", "==", false)
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -124,8 +125,4 @@ const TitleText = styled.Text`
   font-size: 40px;
   font-weight: 5;
   color: #f4cd43;
-`;
-const ConTainer = styled.View`
-  height: ${SCREEN_HEIGHT + "px"};
-  background-color: white;
 `;
