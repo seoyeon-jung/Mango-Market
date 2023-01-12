@@ -32,5 +32,5 @@ const BtnText = styled.Text`
   text-align: center;
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: ${(props) => props.theme.btn};
 `;
