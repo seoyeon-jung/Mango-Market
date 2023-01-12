@@ -21,7 +21,8 @@ export default function Login({
   const [pw, setPW] = useState("");
   // 폰트 사용을 위한 state
   const [isFontReady, setIsFontReady] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPWFocused, setIsPWFocused] = useState(false);
 
   // 유효성 검사
   const validInput = () => {
@@ -114,7 +115,7 @@ export default function Login({
   }, []);
 
   // 폰트 비동기 처리
-   const fontLoad = async () => {
+  const fontLoad = async () => {
     await Font.loadAsync({
       korail: require("../assets/fonts/Korail_Round_Gothic_Bold.ttf"),
     });
@@ -132,22 +133,25 @@ export default function Login({
           <InputContainer>
             <InputHeader style={{ flexDirection: "row" }}>
               {/* <InputImg source={require("../assets/mango.png")} /> */}
-              <InputLabel isFocused={isFocused}>이메일</InputLabel>
+              <InputLabel isEmailFocused={isEmailFocused}>이메일</InputLabel>
             </InputHeader>
             <InputBox
               ref={emailRef}
               onChangeText={(text) => setEmail(text)}
               textContentType="emailAddress"
-              // onBlur={() => {
-              //   setIsFocused(false);
-              // }}
-              // onFocus={() => setIsFocused(true)}
+              onBlur={() => {
+                setIsEmailFocused(false);
+              }}
+              onFocus={() => {
+                setIsEmailFocused(true);
+              }}
+              isEmailFocused={isEmailFocused}
             />
           </InputContainer>
           <InputContainer>
             <InputHeader style={{ flexDirection: "row" }}>
               {/* <InputImg source={require("../assets/mango.png")} /> */}
-              <InputLabel isFocused={isFocused}>비밀번호</InputLabel>
+              <InputLabel isPWFocused={isPWFocused}>비밀번호</InputLabel>
             </InputHeader>
             <InputBox
               ref={pwRef}
@@ -155,9 +159,13 @@ export default function Login({
               textContentType="password"
               returnKeyType="send"
               secureTextEntry={true}
-              // onBlur={() => setIsFocused(false)}
-              // onFocus={() => setIsFocused(true)}
-              // isFocused={isFocused}
+              onBlur={() => {
+                setIsPWFocused(false);
+              }}
+              onFocus={() => {
+                setIsPWFocused(true);
+              }}
+              isPWFocused={isPWFocused}
             />
           </InputContainer>
 
@@ -220,7 +228,13 @@ const InputHeader = styled.View`
 const InputLabel = styled.Text`
   font-family: korail;
   font-size: 13px;
-  color: white;
+  color: ${(props) => {
+    if (props.isEmailFocused || props.isPWFocused) {
+      return APPLEMANGO_COLOR;
+    } else {
+      return "white";
+    }
+  }};
 `;
 
 const InputBox = styled.TextInput`
@@ -229,6 +243,14 @@ const InputBox = styled.TextInput`
   width: ${SCREEN_WIDTH / 1.5 + "px"};
   height: 40px;
   border-radius: 10px;
+  border: 3px solid;
+  border-color: ${(props) => {
+    if (props.isEmailFocused || props.isPWFocused) {
+      return APPLEMANGO_COLOR;
+    } else {
+      return MANGO_COLOR;
+    }
+  }}; ;
 `;
 
 // const InputImg = styled.Image`
