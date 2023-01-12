@@ -91,12 +91,6 @@ export default function Home({ navigation: { navigate, reset } }) {
         {isFontReady && (
           <>
             <Header>
-              {/* <Image
-          style={{ width: 40, height: 40 }}
-          source={{
-            uri: "https://i.ibb.co/gvpPs61/image.png",
-          }}
-        /> */}
               <TitleText>망고마켓</TitleText>
             </Header>
             <FlatList
@@ -118,8 +112,8 @@ const Header = styled.View`
   justify-content: center;
   align-items: center;
   background-color: white;
-
   height: ${SCREEN_HEIGHT / 8 + "px"};
+  margin-top: 10px;
 `;
 const TitleText = styled.Text`
   /* text-shadow: 1px 2px 2px; */
