@@ -23,8 +23,6 @@ export default function Home({ navigation: { navigate, reset } }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFontReady, setIsFontReady] = useState(false);
 
-  
-
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
@@ -114,8 +112,8 @@ const Header = styled.View`
   justify-content: center;
   align-items: center;
   background-color: white;
-
   height: ${SCREEN_HEIGHT / 8 + "px"};
+  margin-top: 10px;
 `;
 const TitleText = styled.Text`
   /* text-shadow: 1px 2px 2px; */
