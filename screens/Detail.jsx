@@ -10,6 +10,7 @@ import { useCallback } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
+import Comments from "../components/Comments";
 
 const brandColor = "#ffc800";
 
@@ -238,6 +239,9 @@ const Detail = (props) => {
       ) : (
         <BtnContainer></BtnContainer>
       )}
+
+      {/* comment */}
+      <Comments postId={itemId} />
     </DetailContainer>
   );
 };
