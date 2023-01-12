@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import styled from "@emotion/native";
 import { doc, updateDoc } from "firebase/firestore";
 import { dbService } from "../firebase";
@@ -58,7 +58,7 @@ const EditDetail = ({
     <>
       <ImgContainer>
         <View style={{ marginTop: 10 }}>
-          <InputTitle
+          <InputBox
             value={img}
             onChangeText={setImg}
             placeholder="변경할 이미지를 입력하세요"
@@ -67,7 +67,7 @@ const EditDetail = ({
       </ImgContainer>
       <InfoBox>
         <TitleBox>
-          <InputTitle
+          <InputBox
             value={title}
             onChangeText={setTitle}
             placeholder="변경할 제목을 입력하세요"
@@ -82,7 +82,7 @@ const EditDetail = ({
         </TitleBox>
         <MarginBox />
         <TitleBox>
-          <InputTitle
+          <InputBox
             keyboardType="number-pad"
             value={price}
             onChangeText={setPrice}
@@ -181,7 +181,7 @@ const TitleBox = styled.View`
   margin-right: 5px;
 `;
 
-const InputTitle = styled.TextInput`
+const InputBox = styled.TextInput`
   height: 40px;
   width: 100%;
 
