@@ -7,6 +7,9 @@ import { authService } from "../firebase";
 import { emailRegex, pwRegex, SCREEN_WIDTH } from "../util";
 import { Text, Alert } from "react-native";
 import styled from "@emotion/native";
+import { APPLEMANGO_COLOR, MANGO_COLOR } from "../colors";
+import { async } from "@firebase/util";
+import * as Font from "expo-font";
 
 export default function Login({
   navigation: { navigate, goBack, setOptions },
@@ -16,6 +19,9 @@ export default function Login({
 
   const [email, setEmail] = useState("");
   const [pw, setPW] = useState("");
+  // 폰트 사용을 위한 state
+  const [isFontReady, setIsFontReady] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   // 유효성 검사
   const validInput = () => {
@@ -104,42 +110,67 @@ export default function Login({
 
   useEffect(() => {
     setOptions({ headerRight: () => null });
+    fontLoad();
   }, []);
+
+  // 폰트 비동기 처리
+  const fontLoad = async () => {
+    await Font.loadAsync({
+      korail: require("../assets/fonts/Korail_Round_Gothic_Bold.ttf"),
+    });
+    setIsFontReady(true);
+  };
 
   return (
     <LoginForm>
-      <Header style={{ flexDirection: "row" }}>
-        <HeaderImg source={require("../assets/mango.png")} />
-        <HeaderText>망고 마켓</HeaderText>
-      </Header>
+      {isFontReady && (
+        <>
+          <Header style={{ flexDirection: "row" }}>
+            {/* <HeaderImg source={require("../assets/mango.png")} /> */}
+            <HeaderText>망고 마켓</HeaderText>
+          </Header>
+          <InputContainer>
+            <InputHeader style={{ flexDirection: "row" }}>
+              {/* <InputImg source={require("../assets/mango.png")} /> */}
+              <InputLabel isFocused={isFocused}>이메일</InputLabel>
+            </InputHeader>
+            <InputBox
+              ref={emailRef}
+              onChangeText={(text) => setEmail(text)}
+              textContentType="emailAddress"
+              // onBlur={() => {
+              //   setIsFocused(false);
+              // }}
+              // onFocus={() => setIsFocused(true)}
+            />
+          </InputContainer>
+          <InputContainer>
+            <InputHeader style={{ flexDirection: "row" }}>
+              {/* <InputImg source={require("../assets/mango.png")} /> */}
+              <InputLabel isFocused={isFocused}>비밀번호</InputLabel>
+            </InputHeader>
+            <InputBox
+              ref={pwRef}
+              onChangeText={(text) => setPW(text)}
+              textContentType="password"
+              returnKeyType="send"
+              secureTextEntry={true}
+              // onBlur={() => setIsFocused(false)}
+              // onFocus={() => setIsFocused(true)}
+              // isFocused={isFocused}
+            />
+          </InputContainer>
 
-      <InputHeader style={{ flexDirection: "row" }}>
-        <InputImg source={require("../assets/mango.png")} />
-        <Text>이메일</Text>
-      </InputHeader>
-      <InputBox
-        ref={emailRef}
-        onChangeText={(text) => setEmail(text)}
-        textContentType="emailAddress"
-      />
-
-      <InputHeader style={{ flexDirection: "row" }}>
-        <InputImg source={require("../assets/mango.png")} />
-        <Text>비밀번호</Text>
-      </InputHeader>
-      <InputBox
-        ref={pwRef}
-        onChangeText={(text) => setPW(text)}
-        textContentType="password"
-        returnKeyType="send"
-        secureTextEntry={true}
-      />
-      <LoginBtn onPress={userLogin}>
-        <LoginText>로그인</LoginText>
-      </LoginBtn>
-      <RegisterBtn onPress={userRegister}>
-        <RegisterText>회원가입</RegisterText>
-      </RegisterBtn>
+          <ButtonGrop>
+            <LoginBtn onPress={userLogin}>
+              <LoginText>로그인</LoginText>
+            </LoginBtn>
+            <RegisterBtn onPress={userRegister}>
+              <RegisterText>회원가입</RegisterText>
+            </RegisterBtn>
+          </ButtonGrop>
+        </>
+      )}
     </LoginForm>
   );
 }
@@ -150,58 +181,100 @@ const LoginForm = styled.View`
   align-items: center;
   justify-content: center;
   padding-top: 50px;
-  background-color: #fff;
+  background-color: ${MANGO_COLOR};
 `;
 
-const LoginBtn = styled.TouchableOpacity`
-  width: ${SCREEN_WIDTH / 2 + "px"};
-  border-radius: 20px;
-  padding: 10px;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #ffcd48;
-  margin-bottom: 14px;
-`;
-
-const RegisterBtn = styled(LoginBtn)``;
-
-const LoginText = styled.Text`
-  font-size: 15px;
-`;
-
-const RegisterText = styled(LoginText)``;
-
-const InputBox = styled.TextInput`
-  background-color: white;
-  border: 2px solid #ffcd48;
-  margin-bottom: 18px;
-  width: ${SCREEN_WIDTH / 1.5 + "px"};
-  height: 40px;
-  border-radius: 10px;
-`;
-
+// 헤더 부분
 const Header = styled.View`
   margin-bottom: 50px;
   align-items: center;
   justify-content: center;
+  /* border-width: 1px; */
 `;
 
 const HeaderImg = styled.Image`
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
 `;
 
 const HeaderText = styled.Text`
-  font-size: 30px;
+  font-size: 50px;
   margin-bottom: 10px;
+  color: white;
+  font-family: korail;
+`;
+
+// 인풋
+
+const InputContainer = styled.View`
+  margin-bottom: 18px;
 `;
 
 const InputHeader = styled.View`
   align-items: flex-start;
   justify-content: flex-start;
+  margin-left: 5px;
+  margin-bottom: 10px;
 `;
 
-const InputImg = styled.Image`
-  width: 20px;
-  height: 20px;
+const InputLabel = styled.Text`
+  font-family: korail;
+  font-size: 13px;
+  color: white;
+`;
+
+const InputBox = styled.TextInput`
+  background-color: white;
+  padding: 10px;
+  width: ${SCREEN_WIDTH / 1.5 + "px"};
+  height: 40px;
+  border-radius: 10px;
+`;
+
+// const InputImg = styled.Image`
+//   width: 20px;
+//   height: 20px;
+// `;
+
+// 버튼
+
+const ButtonGrop = styled.View`
+  width: ${SCREEN_WIDTH / 1.5 + "px"};
+  margin-top: 30px;
+  flex-direction: row;
+  justify-content: space-between;
+  /* border-width: 1px; */
+`;
+const LoginBtn = styled.TouchableOpacity`
+  width: ${SCREEN_WIDTH / 3.5 + "px"};
+  border-radius: 20px;
+  padding: 14px;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid white; */
+  margin-bottom: 14px;
+  background-color: ${APPLEMANGO_COLOR};
+`;
+
+const RegisterBtn = styled.TouchableOpacity`
+  width: ${SCREEN_WIDTH / 3.5 + "px"};
+  border-radius: 20px;
+  padding: 14px;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid white; */
+  margin-bottom: 14px;
+  background-color: white;
+`;
+
+const LoginText = styled.Text`
+  font-size: 15px;
+  color: white;
+  font-family: korail;
+`;
+
+const RegisterText = styled.Text`
+  font-size: 15px;
+  color: ${APPLEMANGO_COLOR};
+  font-family: korail;
 `;

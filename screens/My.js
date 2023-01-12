@@ -21,7 +21,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   let userCurrentId = authService.currentUser.email;
-  console.log(userCurrentId);
+  // console.log(userCurrentId);
   // 로그인 & 로그아웃 로직
   const logout = () => {
     signOut(authService)
@@ -96,11 +96,14 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
   );
 
   return (
-    <>
+    <Mycontainer>
       <UserCardContainer>
         <UserCard>
           <UserIntroduce>
-            안녕하세요 {authService.currentUser.email.split("@")[0]} 님{" "}
+            <UserNameText>
+              {authService.currentUser.email.split("@")[0]}
+            </UserNameText>
+            {"  "}님
           </UserIntroduce>
         </UserCard>
       </UserCardContainer>
@@ -115,11 +118,16 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
         renderItem={({ item }) => <Post item={item} />}
         keyExtractor={(item) => item.id}
       />
-    </>
+    </Mycontainer>
   );
 };
 
 export default My;
+const Mycontainer = styled.View`
+  background-color: white;
+  flex: 1;
+`;
+
 // 최상단 유저카드
 const UserCardContainer = styled.View`
   height: ${SCREEN_HEIGHT / 6 + "px"};
@@ -138,10 +146,17 @@ const UserCard = styled.View`
 `;
 
 const UserIntroduce = styled.Text`
-  font-size: 32px;
-  font-weight: 800;
-  color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  color: #d1d1d1;
   margin-top: 8px;
+`;
+
+const UserNameText = styled.Text`
+  
+  font-size: 32px;
+  font-weight: 900;
+  color: ${MANGO_COLOR};
 `;
 
 // const LogoutButton = styled.View`

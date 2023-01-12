@@ -122,7 +122,7 @@ const Detail = (props) => {
   };
 
   // .toLocaleDateString() + " " + today.toLocaleTimeString()
-  console.log(dateString(detailItem.date));
+  // console.log(dateString(detailItem.date));
 
   return (
     <DetailContainer>

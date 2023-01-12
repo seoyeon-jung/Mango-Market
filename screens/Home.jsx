@@ -3,11 +3,8 @@ import Post from "../components/Post";
 import { signOut } from "firebase/auth";
 import React, { useCallback } from "react";
 import { useState } from "react";
-import {
-  Image,
-  FlatList,
-  SafeAreaView,
-} from "react-native";
+import { Image, FlatList, SafeAreaView } from "react-native";
+
 import {
   collection,
   onSnapshot,
@@ -73,35 +70,33 @@ export default function Home({ navigation: { navigate, reset } }) {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: "white" }}>
+      <Header>
+        <Image
+          style={{ width: 40, height: 40 }}
+          source={{
+            uri: "https://i.ibb.co/gvpPs61/image.png",
+          }}
+        />
+        <TitleText>망고마켓</TitleText>
+      </Header>
       <FlatList
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "white", marginBottom: 110 }}
         refreshing={isRefreshing}
         onRefresh={onRefresh}
         data={posts}
         renderItem={({ item }) => <Post item={item} />}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={
-          <Header>
-            <Image
-              style={{ width: 40, height: 40 }}
-              source={{
-                uri: "https://i.ibb.co/gvpPs61/image.png",
-              }}
-            />
-            <TitleText>망고마켓</TitleText>
-          </Header>
-        }
       />
     </SafeAreaView>
   );
 }
 const Header = styled.View`
-  margin-right: 30px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  flex: 1;
+  background-color: white;
+
   height: ${SCREEN_HEIGHT / 8 + "px"};
 `;
 const TitleText = styled.Text`

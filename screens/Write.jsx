@@ -96,6 +96,7 @@ const Write = () => {
 const DetailContainer = styled.View`
   flex: 1;
   padding: 5%;
+  background-color: white;
 `;
 
 const InputBox = styled.TextInput`

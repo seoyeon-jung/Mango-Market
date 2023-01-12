@@ -27,25 +27,28 @@ const Post = ({ item }) => {
   };
 
   const nowDate = detailDate(new Date(item.date.toDate()));
-  console.log(new Date(), nowDate);
+  // console.log(new Date(), nowDate);
   return (
-    <TouchableOpacity onPress={moveToDetail}>
-      <PostView>
-        <PostContainer>
-          <PostImg
-            // style={{ width: 60, height: 80 }}
-            source={{
-              uri: item.img,
-            }}
-          ></PostImg>
-          <PostDescContianer>
-            <PostTitle>{item?.title}</PostTitle>
-            <PostDate>{nowDate}</PostDate>
-            <PostPrice>{item?.price}</PostPrice>
-          </PostDescContianer>
-        </PostContainer>
-      </PostView>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity onPress={moveToDetail}>
+        <PostView>
+          <PostContainer>
+            <PostImg
+              // style={{ width: 60, height: 80 }}
+              source={{
+                uri: item.img,
+              }}
+            ></PostImg>
+            <PostDescContianer>
+              <PostTitle>{item?.title}</PostTitle>
+              <PostDate>{nowDate}</PostDate>
+              <PostPrice>{item?.price}</PostPrice>
+            </PostDescContianer>
+          </PostContainer>
+        </PostView>
+      </TouchableOpacity>
+      <Line></Line>
+    </>
   );
 };
 
@@ -57,7 +60,7 @@ const PostView = styled.View`
   padding: 16px;
   width: ${SCREEN_WIDTH};
   height: 150px;
-  background-color: #f4cd43;
+  background-color: white;
   border-radius: 8px;
 `;
 const PostContainer = styled.View`
@@ -102,4 +105,10 @@ const CommentIconGroup = styled.View`
 
 const CommentCounterText = styled.Text`
   color: #c0c0c0;
+`;
+const Line = styled.View`
+  border-width: 0.5px;
+  margin-left: 16px;
+  margin-right: 16px;
+  border-color: #d1d1d1;
 `;

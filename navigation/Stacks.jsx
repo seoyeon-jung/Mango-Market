@@ -61,7 +61,11 @@ export default function Stacks({
         },
       }}
     >
-      <NativeStack.Screen name="Login" component={Login} />
+      <NativeStack.Screen
+        options={{ headerShown: false, }}
+        name="Login"
+        component={Login}
+      />
       <NativeStack.Screen name="Detail" component={Detail} />
     </NativeStack.Navigator>
   );
