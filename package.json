@@ -25,7 +25,8 @@
     "react-native": "0.70.5",
     "react-native-image-picker": "^5.0.0",
     "react-query": "^3.39.2",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "expo-font": "~11.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
