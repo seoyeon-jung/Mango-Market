@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, ScrollView, Image } from "react-native";
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
@@ -241,13 +241,15 @@ const Detail = (props) => {
       )}
 
       {/* comment */}
-      <Comments postId={itemId} />
+      <ScrollView>
+        <Comments postId={itemId} />
+      </ScrollView>
     </DetailContainer>
   );
 };
 
 const DetailContainer = styled.View`
-  flex: 1;
+  //flex: 1;
   padding: 5%;
 `;
 

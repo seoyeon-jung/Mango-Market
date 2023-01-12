@@ -124,6 +124,7 @@ function Comments({ postId }, props) {
             >
               {item.isEdit ? (
                 <TextInput
+                  style={{ backgroundColor: "white" }}
                   onChangeText={setEditText}
                   onSubmitEditing={() => editComment(item.id)}
                   defaultValue={item.comment}
