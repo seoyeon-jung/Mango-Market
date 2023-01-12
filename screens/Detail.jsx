@@ -1,4 +1,4 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
 import { doc, getDoc, deleteDoc } from "firebase/firestore";
@@ -10,7 +10,7 @@ import { useCallback } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
 import * as Font from "expo-font";
-import { MANGO_COLOR } from "../colors";
+import { APPLEMANGO_COLOR, GRAY_COLOR, MANGO_COLOR } from "../colors";
 import EditDetail from "../components/EditDetail";
 
 const brandColor = "#ffc800";
@@ -118,59 +118,54 @@ const Detail = (props) => {
                 }}
               />
             </ImageContainer>
-
-            <TitleBox>
-              <Text> {detailItem.title} </Text>
-            </TitleBox>
-
-            <View style={{ marginTop: 10 }}></View>
-            <View style={{ marginTop: 10 }}>
-              <TitleBox>
-                <TitelText> {detailItem.title} </TitelText>
-              </TitleBox>
-            </View>
-
-            <View style={{ marginTop: 10 }}>
-              <LabelText> 가격 </LabelText>
-
-              <TitleBox>
-                <Text> {detailItem.price} 원 </Text>
-              </TitleBox>
-            </View>
-
-            <Text style={{ marginTop: 10 }}>
-              {" "}
-              글 작성 날짜 : {detailItem.date}{" "}
-            </Text>
-            <View style={{ marginTop: 10 }}>
-              <LabelText> 내용 </LabelText>
-
+            <MarginBox />
+            <ScrollView>
+              <InfoBox>
+                <TitleBox>
+                  <TitelText> {detailItem.title} </TitelText>
+                </TitleBox>
+                <MarginBox />
+                <TitleBox>
+                  <PriceText> {detailItem.price} 원 </PriceText>
+                </TitleBox>
+                <GroupBox>
+                  <DateText>{detailItem.date}</DateText>
+                  <UserText>{detailItem.userId} </UserText>
+                </GroupBox>
+                <MarginBox />
+              </InfoBox>
               <ContentBox>
-                <Text> {detailItem.content} </Text>
+                <ContentText> {detailItem.content} </ContentText>
               </ContentBox>
-            </View>
-            <Text> 해당 글 작성자 : {detailItem.userId} </Text>
-            {userId === currentId ? (
-              <BtnContainer>
-                <CustomBtn
-                  btnText="수정"
-                  detailItem={detailItem}
-                  handler={setEdit}
-                />
-                <CustomBtn
-                  btnText="삭제"
-                  detailItem={detailItem}
-                  handler={deleteBoard}
-                />
-              </BtnContainer>
-            ) : (
-              <BtnContainer></BtnContainer>
-            )}
+
+              {userId === currentId ? (
+                <BtnContainer>
+                  <CustomBtn
+                    btnText="수정"
+                    detailItem={detailItem}
+                    handler={setEdit}
+                    color={MANGO_COLOR}
+                  />
+                  <CustomBtn
+                    btnText="삭제"
+                    detailItem={detailItem}
+                    handler={deleteBoard}
+                    color={APPLEMANGO_COLOR}
+                  />
+                </BtnContainer>
+              ) : (
+                <BtnContainer></BtnContainer>
+              )}
+            </ScrollView>
           </>
         ))}
     </DetailContainer>
   );
 };
+
+const MarginBox = styled.View`
+  margin-top: 10px;
+`;
 
 const DetailContainer = styled.View`
   flex: 1;
@@ -178,85 +173,75 @@ const DetailContainer = styled.View`
 `;
 
 const ImageContainer = styled.View`
-  /* flex: 1; */
   height: 30%;
   width: 100%;
-
-  border: 3px solid ${brandColor};
-
   justify-items: center;
   align-self: center;
 `;
 
-// 디테일 페이지 스타일
-
-const TitleBox = styled.Text`
-  border: 3px solid ${MANGO_COLOR};
+const InfoBox = styled.View`
+  margin-left: 10px;
+  margin-right: 10px;
   padding: 10px;
-  justify-content: flex-start;
+  /* border-width: 1px; */
 `;
 
-const LabelText = styled.Text`
-  font-family: korail;
-  font-size: 24px;
-  font-weight: 700;
+const TitleBox = styled.Text`
+  justify-content: flex-start;
+  margin-bottom: 15px;
+  margin-right: 5px;
 `;
 const TitelText = styled.Text`
   font-family: korail;
-  font-size: 24px;
+  font-size: 40px;
   font-weight: 700;
 `;
 
 const PriceText = styled.Text`
+  font-family: korail;
   font-size: 32px;
   font-weight: 800;
-  font-family: korail;
 `;
 
-const InfoText = styled.Text`
-  font-family: korail;
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
+const GroupBox = styled.View`
+  margin-top: 10px;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 const DateText = styled.Text`
+  font-family: korail;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 7px;
+  color: #d1d1d1;
+`;
+
+const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
   color: #d1d1d1;
 `;
 
-// 수정 스타일
-
-const InputTitle = styled.TextInput`
-  height: 40px;
-  width: 100%;
-
-  border: 3px solid ${brandColor};
-  padding: 10px;
+const ContentBox = styled.View`
+  min-height: 250px;
+  width: 93%;
+  border: 1px solid #d1d1d15f;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 15px;
 `;
-
-const ContentBox = styled.Text`
-  height: 150px;
-  width: 100%;
-
-  border: 3px solid ${brandColor};
-  padding: 10px;
-`;
-
-const InputContent = styled.TextInput`
-  height: 150px;
-  width: 100%;
-  padding-left: 0;
-  padding-top: 0;
-
-  border: 3px solid ${brandColor};
-  padding: 10px;
+const ContentText = styled.Text`
+  font-family: korail;
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
 `;
 
 const BtnContainer = styled.View`
   flex-direction: row;
-  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Detail;

@@ -59,16 +59,15 @@ const EditDetail = ({
           placeholder="변경할 이미지를 입력하세요"
         />
       </View>
-      <View style={{ marginTop: 10 }}></View>
-      <View style={{ marginTop: 10 }}>
-        <InputTitle
-          value={title}
-          onChangeText={setTitle}
-          placeholder="변경할 제목을 입력하세요"
-        />
-      </View>
+      <MarginBox />
+      <MarginBox />
+      <InputTitle
+        value={title}
+        onChangeText={setTitle}
+        placeholder="변경할 제목을 입력하세요"
+      />
 
-      <View style={{ marginTop: 10 }}></View>
+      <MarginBox />
 
       <InputTitle
         keyboardType="number-pad"
@@ -77,16 +76,16 @@ const EditDetail = ({
         placeholder="변경할 가격을 입력하세요"
       />
       <Text style={{ marginTop: 10 }}> 글 작성 날짜 : {detailItem.date} </Text>
-      <View style={{ marginTop: 10 }}>
-        <LabelText> 내용 </LabelText>
-        <InputContent
-          style={{ textAlignVertical: "top" }}
-          multiline={true}
-          onChangeText={setContent}
-          value={content}
-          placeholder="변경할 내용을 입력하세요"
-        />
-      </View>
+      <MarginBox />
+      <LabelText> 내용 </LabelText>
+      <InputContent
+        style={{ textAlignVertical: "top" }}
+        multiline={true}
+        onChangeText={setContent}
+        value={content}
+        placeholder="변경할 내용을 입력하세요"
+      />
+
       <Text> 해당 글 작성자 : {detailItem.userId} </Text>
 
       <BtnContainer>
@@ -124,10 +123,8 @@ const EditDetail = ({
 
 export default EditDetail;
 
-const TitleBox = styled.Text`
-  border: 3px solid ${MANGO_COLOR};
-  padding: 10px;
-  justify-content: flex-start;
+const MarginBox = styled.View`
+  margin-top: 10px;
 `;
 
 const LabelText = styled.Text`
@@ -135,43 +132,9 @@ const LabelText = styled.Text`
   font-size: 24px;
   font-weight: 700;
 `;
-const TitelText = styled.Text`
-  font-family: korail;
-  font-size: 24px;
-  font-weight: 700;
-`;
-
-const PriceText = styled.Text`
-  font-size: 32px;
-  font-weight: 800;
-  font-family: korail;
-`;
-
-const InfoText = styled.Text`
-  font-family: korail;
-  font-size: 18px;
-  font-weight: 700;
-  color: #333;
-`;
-const DateText = styled.Text`
-  font-family: korail;
-  font-size: 16px;
-  font-weight: 600;
-  color: #d1d1d1;
-`;
-
-// 수정 스타일
 
 const InputTitle = styled.TextInput`
   height: 40px;
-  width: 100%;
-
-  border: 3px solid ${MANGO_COLOR};
-  padding: 10px;
-`;
-
-const ContentBox = styled.Text`
-  height: 150px;
   width: 100%;
 
   border: 3px solid ${MANGO_COLOR};
