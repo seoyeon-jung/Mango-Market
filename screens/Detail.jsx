@@ -26,9 +26,6 @@ const Detail = (props) => {
   const userId = props.route.params.userId;
   // const userName = detailItem.userId.splite("@")[0];
 
-  console.log("userID", detailItem);
-  console.log("currentUser", typeof authService.currentUser.email);
-
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
@@ -64,7 +61,6 @@ const Detail = (props) => {
       id: docSnap.id,
       ...docSnap.data(),
     };
-    // console.log(newDetailItem);
     setDetailItem(newDetailItem);
   };
 
@@ -82,7 +78,6 @@ const Detail = (props) => {
       {
         text: "취소",
         style: "cancel",
-        onPress: () => console.log("취소 클릭!"),
       },
       {
         text: "삭제",
@@ -137,7 +132,7 @@ const Detail = (props) => {
           />
         ) : (
           <>
-            <ImageContainer>
+            <ImageContainer style={{ padding: 10 }}>
               <Image
                 style={{ flex: 1 }}
                 source={{
@@ -153,13 +148,7 @@ const Detail = (props) => {
                 </TitleBox>
                 <MarginBox />
                 <TitleBox>
-                  <PriceText>
-                    {" "}
-                    {detailItem?.price
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    원{" "}
-                  </PriceText>
+                  <PriceText> {detailItem?.price} 원 </PriceText>
                 </TitleBox>
                 <GroupBox>
                   <DateText>{dateString(detailItem?.date)}</DateText>
@@ -189,8 +178,6 @@ const Detail = (props) => {
               ) : (
                 <BtnContainer></BtnContainer>
               )}
-
-              <Comments postId={itemId} />
             </ScrollView>
           </>
         ))}
@@ -204,7 +191,6 @@ const MarginBox = styled.View`
 
 const DetailContainer = styled.View`
   flex: 1;
-  background-color: white;
   /* padding: 5%; */
 `;
 
@@ -256,7 +242,7 @@ const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
-  color: ${MANGO_COLOR};
+  color: #d1d1d1;
 `;
 
 const ContentBox = styled.View`
