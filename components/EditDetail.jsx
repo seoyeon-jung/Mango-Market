@@ -14,6 +14,7 @@ import { Alert } from "react-native";
 import { authService, storage } from "../firebase";
 import * as ImagePicker from "expo-image-picker";
 import { APPLEMANGO_COLOR, GRAY_COLOR, MANGO_COLOR } from "../colors";
+import { useNavigation } from "@react-navigation/native";
 
 import CustomBtn from "../components/CustomBtn";
 import {
@@ -33,12 +34,11 @@ const EditDetail = ({
   dateString,
   getData,
 }) => {
-  // state
-
   const [title, setTitle] = useState(detailItem.title);
   const [content, setContent] = useState(detailItem.content);
   const [price, setPrice] = useState(detailItem.price);
   const [image, setImage] = useState(null);
+  const { navigate } = useNavigation();
 
   // 스타일링 state
   const [isTitleFocused, setIsTitleFocused] = useState(false);
@@ -58,40 +58,73 @@ const EditDetail = ({
       xhr.open("get", image, true);
       xhr.send(null);
     });
-
+    // Create the file metadata
+    /** @type {any} */
     const metadata = {
       contentType: "image/jpeg",
     };
+
     const storageRef = ref(storage, "Categories/" + Date.now());
     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
-    uploadTask.on("state_changed", () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        setImage("null");
-        const newBoard = createNewBoard(downloadURL);
-        addBoard(newBoard);
-      });
-    });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        switch (error.code) {
+          case "storage/unauthorized":
+            break;
+          case "storage/canceled":
+            break;
+
+          case "storage/unknown":
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImage("null");
+          const newBoard = createNewBoard(downloadURL);
+          addBoard(newBoard);
+        });
+      }
+    );
   };
 
-  const createNewBoard = (img) => ({
-    userId: currentId,
-    title,
-    content,
-    price,
-    date: new Date(),
-    isDone: false,
-    isEdit: false,
-    img,
-  });
+  const createNewBoard = (img) => {
+    return {
+      userId: currentId,
+      title,
+      content,
+      price,
+      date: new Date(),
+      isDone: false,
+      isEdit: false,
+      img,
+    };
+  };
 
   const addBoard = async (newBoard) => {
-    await updateDoc(doc(dbService, "posts", itemId), {
+    await updateDoc(doc(dbService, "posts", detailItem.id), {
       ...newBoard,
     });
     setContent("");
-    setTitle("");
     setPrice("");
+    setTitle("");
+    Alert.alert("수정 완료");
+    navigate("Home");
   };
 
   const pickImage = async () => {

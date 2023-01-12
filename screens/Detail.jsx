@@ -26,9 +26,6 @@ const Detail = (props) => {
   const userId = props.route.params.userId;
   // const userName = detailItem.userId.splite("@")[0];
 
-  console.log("userID", detailItem);
-  console.log("currentUser", typeof authService.currentUser.email);
-
   useFocusEffect(
     useCallback(() => {
       if (!authService.currentUser) {
@@ -64,7 +61,6 @@ const Detail = (props) => {
       id: docSnap.id,
       ...docSnap.data(),
     };
-    // console.log(newDetailItem);
     setDetailItem(newDetailItem);
   };
 
@@ -82,7 +78,6 @@ const Detail = (props) => {
       {
         text: "취소",
         style: "cancel",
-        onPress: () => console.log("취소 클릭!"),
       },
       {
         text: "삭제",

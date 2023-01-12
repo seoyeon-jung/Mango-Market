@@ -22,7 +22,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-const Write = () => {
+const Write = ({ navigation }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
@@ -43,31 +43,15 @@ const Write = () => {
   const priceRef = useRef(null);
   const contentRef = useRef(null);
 
-  const validateInput = () => {
-    if (!image) {
-      Alert.alert("상품 이미지를 등록해주세요.");
-      return true;
-    }
-    if (!title) {
-      Alert.alert("상품 이름을 입력해주세요.");
-      titleRef.current.focus();
-      return true;
-    }
-    if (!price) {
-      Alert.alert("상품 가격을 입력해주세요.");
-      priceRef.current.focus();
-      return true;
-    }
-    if (!content) {
-      Alert.alert("상품 설명을 입력해주세요.");
-      contentRef.current.focus();
-      return true;
-    }
-  };
-
   const uploadImage = async () => {
-    validateInput();
-
+    if (image == "null") {
+      Alert.alert("사진을 첨부해주세요.");
+      return;
+    }
+    if (title === "" || content === "" || price === "") {
+      Alert.alert("제목, 가격, 내용 모두 입력하고 수정해주세요.");
+      return;
+    }
     const blobImage = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -80,41 +64,69 @@ const Write = () => {
       xhr.open("get", image, true);
       xhr.send(null);
     });
-
+    // Create the file metadata
+    /** @type {any} */
     const metadata = {
       contentType: "image/jpeg",
     };
+
     const storageRef = ref(storage, "Categories/" + Date.now());
     const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
 
-    uploadTask.on("state_changed", () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        setImage("null");
-        const newBoard = createNewBoard(downloadURL);
-        addBoard(newBoard);
-        // setTimeout(() => {
-        //   const newBoard = createNewBoard(downloadURL);
-        //   addBoard(newBoard);
-        // }, 2000);
-      });
-    });
-  };
-  const createNewBoard = (img) => ({
-    userId: currentId,
-    title,
-    content,
-    price,
-    date: new Date(),
-    isDone: false,
-    isEdit: false,
-    img,
-  });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        switch (error.code) {
+          case "storage/unauthorized":
+            break;
+          case "storage/canceled":
+            break;
 
+          case "storage/unknown":
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImage("null");
+          const newBoard = createNewBoard(downloadURL);
+          addBoard(newBoard);
+        });
+      }
+    );
+  };
+
+  const createNewBoard = (img) => {
+    return {
+      userId: currentId,
+      title,
+      content,
+      price,
+      date: new Date(),
+      isDone: false,
+      isEdit: false,
+      img,
+    };
+  };
   const addBoard = async (newBoard) => {
     await addDoc(collection(dbService, "posts"), newBoard);
     setContent("");
     setTitle("");
     setPrice("");
+    navigation.navigate("Home");
   };
 
   const pickImage = async () => {

@@ -76,7 +76,6 @@ export default function Home({ navigation: { navigate, reset } }) {
   // 폰트 비동기 처리
   useEffect(() => {
     fontLoad();
-    console.log(isFontReady);
   }, []);
   const fontLoad = async () => {
     await Font.loadAsync({
