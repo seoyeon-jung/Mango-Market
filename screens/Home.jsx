@@ -1,9 +1,10 @@
 import { useFocusEffect } from "@react-navigation/native";
 import Post from "../components/Post";
 import { signOut } from "firebase/auth";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { Image, FlatList, SafeAreaView } from "react-native";
+import * as Font from "expo-font";
 
 import {
   collection,
@@ -19,6 +20,7 @@ import { SCREEN_HEIGHT } from "../util";
 export default function Home({ navigation: { navigate, reset } }) {
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isFontReady, setIsFontReady] = useState(false);
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
@@ -69,25 +71,42 @@ export default function Home({ navigation: { navigate, reset } }) {
     setIsRefreshing(false);
   };
 
+  // 폰트 비동기 처리
+
+  useEffect(() => {
+    fontLoad();
+    console.log(isFontReady);
+  }, []);
+  const fontLoad = async () => {
+    await Font.loadAsync({
+      korail: require("../assets/fonts/Korail_Round_Gothic_Bold.ttf"),
+    });
+    setIsFontReady(true);
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: "white" }}>
-      <Header>
-        <Image
+      {isFontReady && (
+        <>
+          <Header>
+            {/* <Image
           style={{ width: 40, height: 40 }}
           source={{
             uri: "https://i.ibb.co/gvpPs61/image.png",
           }}
-        />
-        <TitleText>망고마켓</TitleText>
-      </Header>
-      <FlatList
-        style={{ backgroundColor: "white", marginBottom: 110 }}
-        refreshing={isRefreshing}
-        onRefresh={onRefresh}
-        data={posts}
-        renderItem={({ item }) => <Post item={item} />}
-        keyExtractor={(item) => item.id}
-      />
+        /> */}
+            <TitleText>망고마켓</TitleText>
+          </Header>
+          <FlatList
+            style={{ backgroundColor: "white", marginBottom: 110 }}
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            data={posts}
+            renderItem={({ item }) => <Post item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -100,7 +119,8 @@ const Header = styled.View`
   height: ${SCREEN_HEIGHT / 8 + "px"};
 `;
 const TitleText = styled.Text`
-  text-shadow: 1px 2px 2px;
+  /* text-shadow: 1px 2px 2px; */
+  font-family: korail;
   font-size: 40px;
   font-weight: 5;
   color: #f4cd43;

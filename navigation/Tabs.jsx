@@ -6,6 +6,7 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import My from "../screens/My";
+import { MANGO_COLOR } from "../colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -18,9 +19,10 @@ export default function Tabs() {
     >
       <Tab.Screen
         options={{
+          tabBarActiveTintColor: `${MANGO_COLOR}`,
           headerShown: false,
           headerTitleAlign: "center",
-          tabBarLabel: "HOME",
+          tabBarLabel: "홈",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="home" size={size} color={color} />
           ),
@@ -30,24 +32,26 @@ export default function Tabs() {
       />
       <Tab.Screen
         options={{
+          tabBarActiveTintColor: `${MANGO_COLOR}`,
           headerTitleAlign: "center",
           tabBarLabel: "글쓰기",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="create" size={size} color={color} />
           ),
         }}
-        name="Write"
+        name="글 작성"
         component={Write}
       />
       <Tab.Screen
         options={{
           headerTitleAlign: "center",
+          tabBarActiveTintColor: `${MANGO_COLOR}`,
           tabBarLabel: "내 정보",
           tabBarIcon: ({ color, size }) => (
             <Feather name="user" size={size} color={color} />
           ),
         }}
-        name="User"
+        name="마이 페이지"
         component={My}
       />
     </Tab.Navigator>

@@ -114,7 +114,7 @@ export default function Login({
   }, []);
 
   // 폰트 비동기 처리
-  const fontLoad = async () => {
+   const fontLoad = async () => {
     await Font.loadAsync({
       korail: require("../assets/fonts/Korail_Round_Gothic_Bold.ttf"),
     });
