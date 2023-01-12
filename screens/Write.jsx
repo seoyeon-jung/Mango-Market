@@ -51,7 +51,7 @@ const Write = () => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
+    // console.log(result);
     if (!result.canceled) {
       setImg(result.uri);
     }

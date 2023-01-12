@@ -53,7 +53,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
     setIsRefreshing(true);
     await getPostDate();
     setIsRefreshing(false);
-    console.log("새로고침");
+    // console.log("새로고침");
   };
 
   useFocusEffect(

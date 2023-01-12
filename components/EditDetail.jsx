@@ -8,13 +8,15 @@ import CustomBtn from "../components/CustomBtn";
 import * as Font from "expo-font";
 import { APPLEMANGO_COLOR, MANGO_COLOR } from "../colors";
 
-
 const EditDetail = ({
   detailItem,
   currentId,
   setEdit,
   itemId,
   setDetailItem,
+  userIdSplit,
+  dateString,
+  getData,
 }) => {
   // state
 
@@ -35,6 +37,7 @@ const EditDetail = ({
     title,
     content,
     price,
+    date: new Date(),
     isDone: false,
     isEdit: false,
     img,
@@ -49,8 +52,8 @@ const EditDetail = ({
     await updateDoc(doc(dbService, "posts", itemId), {
       ...newBoard,
     });
-    setDetailItem(newBoard);
-
+    
+    getData();
     setTitle("");
     setContent("");
     setPrice("");
@@ -100,8 +103,8 @@ const EditDetail = ({
         </TitleBox>
 
         <GroupBox>
-          <DateText>{detailItem.date}</DateText>
-          <UserText>{detailItem.userId} </UserText>
+          <DateText>{dateString(detailItem?.date)}</DateText>
+          <UserText>{userIdSplit(detailItem?.userId)} </UserText>
         </GroupBox>
         <MarginBox />
       </InfoBox>
