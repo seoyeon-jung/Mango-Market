@@ -17,13 +17,17 @@ import Comments from "../components/Comments";
 const brandColor = "#ffc800";
 
 const Detail = (props) => {
-  const [detailItem, setDetailItem] = useState({});
+  const [detailItem, setDetailItem] = useState(null);
   const [isFontReady, setIsFontReady] = useState(false);
 
   const { navigate } = useNavigation();
   const currentId = authService.currentUser.email;
   const itemId = props.route.params.postId;
   const userId = props.route.params.userId;
+  // const userName = detailItem.userId.splite("@")[0];
+
+  console.log("userID", detailItem);
+  console.log("currentUser", typeof authService.currentUser.email);
 
   useFocusEffect(
     useCallback(() => {
@@ -51,18 +55,20 @@ const Detail = (props) => {
     }, [])
   );
 
-  useEffect(() => {
-    const getData = async () => {
-      const docRef = doc(dbService, "posts", itemId);
-      const docSnap = await getDoc(docRef);
+  // 데이터 불러오기
+  const getData = async () => {
+    const docRef = doc(dbService, "posts", itemId);
+    const docSnap = await getDoc(docRef);
 
-      const newDetailItem = {
-        id: docSnap.id,
-        ...docSnap.data(),
-      };
-      // console.log(newDetailItem);
-      setDetailItem(newDetailItem);
+    const newDetailItem = {
+      id: docSnap.id,
+      ...docSnap.data(),
     };
+    // console.log(newDetailItem);
+    setDetailItem(newDetailItem);
+  };
+
+  useEffect(() => {
     fontLoad();
     getData();
   }, []);
@@ -97,6 +103,8 @@ const Detail = (props) => {
     });
     setIsFontReady(true);
   };
+
+  // 파이어베이스 -> 날짜 스트링 처리
   const dateString = (date) => {
     if (date) {
       return (
@@ -107,24 +115,33 @@ const Detail = (props) => {
     }
   };
 
+  const userIdSplit = (userId) => {
+    if (userId) {
+      return userId.split("@")[0];
+    }
+  };
+
   return (
     <DetailContainer>
       {isFontReady &&
-        (detailItem.isEdit ? (
+        (detailItem?.isEdit ? (
           <EditDetail
             detailItem={detailItem}
             currentId={currentId}
             setEdit={setEdit}
             itemId={itemId}
             setDetailItem={setDetailItem}
+            userIdSplit={userIdSplit}
+            dateString={dateString}
+            getData={getData}
           />
         ) : (
           <>
-            <ImageContainer>
+            <ImageContainer style={{ padding: 10 }}>
               <Image
                 style={{ flex: 1 }}
                 source={{
-                  uri: String(detailItem.img),
+                  uri: String(detailItem?.img),
                 }}
               />
             </ImageContainer>
@@ -132,20 +149,20 @@ const Detail = (props) => {
             <ScrollView>
               <InfoBox>
                 <TitleBox>
-                  <TitelText> {detailItem.title} </TitelText>
+                  <TitelText> {detailItem?.title} </TitelText>
                 </TitleBox>
                 <MarginBox />
                 <TitleBox>
-                  <PriceText> {detailItem.price} 원 </PriceText>
+                  <PriceText> {detailItem?.price} 원 </PriceText>
                 </TitleBox>
-                <GroupBox>  
-                  <DateText>{dateString(detailItem.date)}</DateText>
-                  <UserText>{detailItem.userId} </UserText>
+                <GroupBox>
+                  <DateText>{dateString(detailItem?.date)}</DateText>
+                  <UserText>{userIdSplit(detailItem?.userId)} </UserText>
                 </GroupBox>
                 <MarginBox />
               </InfoBox>
               <ContentBox>
-                <ContentText> {detailItem.content} </ContentText>
+                <ContentText> {detailItem?.content} </ContentText>
               </ContentBox>
 
               {userId === currentId ? (

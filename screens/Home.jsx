@@ -22,6 +22,7 @@ export default function Home({ navigation: { navigate, reset } }) {
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFontReady, setIsFontReady] = useState(false);
+
   const getPostDate = () => {
     const q = query(
       collection(dbService, "posts"),
@@ -73,7 +74,6 @@ export default function Home({ navigation: { navigate, reset } }) {
   };
 
   // 폰트 비동기 처리
-
   useEffect(() => {
     fontLoad();
     console.log(isFontReady);
@@ -86,8 +86,8 @@ export default function Home({ navigation: { navigate, reset } }) {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white" }}>
-      
+    <HomeCotainer>
+      <SafeAreaView style={{ backgroundColor: "white" }}>
         {isFontReady && (
           <>
             <Header>
@@ -109,8 +109,8 @@ export default function Home({ navigation: { navigate, reset } }) {
             />
           </>
         )}
-      
-    </SafeAreaView>
+      </SafeAreaView>
+    </HomeCotainer>
   );
 }
 const Header = styled.View`
@@ -129,7 +129,7 @@ const TitleText = styled.Text`
   color: #f4cd43;
 `;
 
-// const HomeCotainer = styled.View`
-//   flex: 1;
-//   background-color: white;
-// `;
+const HomeCotainer = styled.View`
+  flex: 1;
+  background-color: white;
+`;
