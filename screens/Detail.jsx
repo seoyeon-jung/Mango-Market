@@ -69,7 +69,6 @@ const Detail = (props) => {
   };
 
   useEffect(() => {
-    
     fontLoad();
     getData();
   }, []);
@@ -197,6 +196,7 @@ const MarginBox = styled.View`
 
 const DetailContainer = styled.View`
   flex: 1;
+  background-color: white;
   /* padding: 5%; */
 `;
 
@@ -248,7 +248,7 @@ const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
-  color: #d1d1d1;
+  color: ${MANGO_COLOR};
 `;
 
 const ContentBox = styled.View`

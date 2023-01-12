@@ -93,12 +93,6 @@ export default function Home({ navigation: { navigate, reset } }) {
         {isFontReady && (
           <>
             <Header>
-              {/* <Image
-          style={{ width: 40, height: 40 }}
-          source={{
-            uri: "https://i.ibb.co/gvpPs61/image.png",
-          }}
-        /> */}
               <TitleText>망고마켓</TitleText>
             </Header>
             <FlatList
