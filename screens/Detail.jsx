@@ -69,7 +69,6 @@ const Detail = (props) => {
   };
 
   useEffect(() => {
-    
     fontLoad();
     getData();
   }, []);
@@ -154,7 +153,13 @@ const Detail = (props) => {
                 </TitleBox>
                 <MarginBox />
                 <TitleBox>
-                  <PriceText> {detailItem?.price} 원 </PriceText>
+                  <PriceText>
+                    {" "}
+                    {detailItem?.price
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    원{" "}
+                  </PriceText>
                 </TitleBox>
                 <GroupBox>
                   <DateText>{dateString(detailItem?.date)}</DateText>
@@ -184,6 +189,8 @@ const Detail = (props) => {
               ) : (
                 <BtnContainer></BtnContainer>
               )}
+
+              <Comments postId={itemId} />
             </ScrollView>
           </>
         ))}
@@ -197,6 +204,7 @@ const MarginBox = styled.View`
 
 const DetailContainer = styled.View`
   flex: 1;
+  background-color: white;
   /* padding: 5%; */
 `;
 
@@ -248,7 +256,7 @@ const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
-  color: #d1d1d1;
+  color: ${MANGO_COLOR};
 `;
 
 const ContentBox = styled.View`
