@@ -27,7 +27,7 @@ const Post = ({ item }) => {
   };
 
   const nowDate = detailDate(new Date(item.date.toDate()));
-  // console.log(new Date(), nowDate);
+  // console.log(item.date());
   return (
     <>
       <TouchableOpacity onPress={moveToDetail}>

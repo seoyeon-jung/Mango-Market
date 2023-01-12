@@ -87,27 +87,29 @@ export default function Home({ navigation: { navigate, reset } }) {
 
   return (
     <SafeAreaView style={{ backgroundColor: "white" }}>
-      {isFontReady && (
-        <>
-          <Header>
-            {/* <Image
+      
+        {isFontReady && (
+          <>
+            <Header>
+              {/* <Image
           style={{ width: 40, height: 40 }}
           source={{
             uri: "https://i.ibb.co/gvpPs61/image.png",
           }}
         /> */}
-            <TitleText>망고마켓</TitleText>
-          </Header>
-          <FlatList
-            style={{ backgroundColor: "white", marginBottom: 110 }}
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            data={posts}
-            renderItem={({ item }) => <Post item={item} />}
-            keyExtractor={(item) => item.id}
-          />
-        </>
-      )}
+              <TitleText>망고마켓</TitleText>
+            </Header>
+            <FlatList
+              style={{ backgroundColor: "white", marginBottom: 110 }}
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              data={posts}
+              renderItem={({ item }) => <Post item={item} />}
+              keyExtractor={(item) => item.id}
+            />
+          </>
+        )}
+      
     </SafeAreaView>
   );
 }
@@ -126,3 +128,8 @@ const TitleText = styled.Text`
   font-weight: 5;
   color: #f4cd43;
 `;
+
+// const HomeCotainer = styled.View`
+//   flex: 1;
+//   background-color: white;
+// `;
