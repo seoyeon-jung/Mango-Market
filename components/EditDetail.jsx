@@ -8,6 +8,7 @@ import CustomBtn from "../components/CustomBtn";
 import * as Font from "expo-font";
 import { APPLEMANGO_COLOR, MANGO_COLOR } from "../colors";
 
+
 const EditDetail = ({
   detailItem,
   currentId,
@@ -49,6 +50,7 @@ const EditDetail = ({
       ...newBoard,
     });
     setDetailItem(newBoard);
+
     setTitle("");
     setContent("");
     setPrice("");
@@ -250,8 +252,6 @@ const InputContent = styled.TextInput`
   padding-left: 0;
   padding-top: 0;
   padding: 10px;
-
-  
 `;
 
 const BtnContainer = styled.View`

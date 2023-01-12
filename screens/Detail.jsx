@@ -11,7 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
 import * as Font from "expo-font";
 import { APPLEMANGO_COLOR, GRAY_COLOR, MANGO_COLOR } from "../colors";
-import EditDetail from "../components/EditDetail";import Comments from "../components/Comments";
+import EditDetail from "../components/EditDetail";
+import Comments from "../components/Comments";
 
 const brandColor = "#ffc800";
 
@@ -59,7 +60,7 @@ const Detail = (props) => {
         id: docSnap.id,
         ...docSnap.data(),
       };
-
+      // console.log(newDetailItem);
       setDetailItem(newDetailItem);
     };
     fontLoad();
@@ -71,7 +72,7 @@ const Detail = (props) => {
   };
 
   const deleteBoard = () => {
-    Alert.alert("Todo 삭제", "정말 삭제하시겠습니까?", [
+    Alert.alert("작성 글 삭제", "정말 삭제하시겠습니까?", [
       {
         text: "취소",
         style: "cancel",
@@ -137,8 +138,8 @@ const Detail = (props) => {
                 <TitleBox>
                   <PriceText> {detailItem.price} 원 </PriceText>
                 </TitleBox>
-                <GroupBox>
-                  <DateText>{detailItem.date}</DateText>
+                <GroupBox>  
+                  <DateText>{dateString(detailItem.date)}</DateText>
                   <UserText>{detailItem.userId} </UserText>
                 </GroupBox>
                 <MarginBox />
