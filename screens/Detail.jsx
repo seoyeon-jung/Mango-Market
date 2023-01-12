@@ -137,7 +137,7 @@ const Detail = (props) => {
           />
         ) : (
           <>
-            <ImageContainer>
+            <ImageContainer style={{ padding: 10 }}>
               <Image
                 style={{ flex: 1 }}
                 source={{
@@ -250,7 +250,7 @@ const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
-  color: ${MANGO_COLOR};
+  color: #d1d1d1;
 `;
 
 const ContentBox = styled.View`

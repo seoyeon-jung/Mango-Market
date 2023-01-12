@@ -1,19 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity, Text, View, Image } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_WIDTH } from "../util";
 import { EvilIcons } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
+import {
+  collection,
+  orderBy,
+  query,
+  where,
+  onSnapshot,
+} from "firebase/firestore";
+import { dbService } from "../firebase";
 
 const Post = ({ item }) => {
   const { navigate } = useNavigation();
+  const [comments, setComments] = useState([]);
+
   const moveToDetail = () => {
     navigate("Stacks", {
       screen: "Detail",
       params: { postId: item.id, userId: item.userId },
     });
   };
+
+  const getComments = () => {
+    const q = query(
+      collection(dbService, "comments"),
+      orderBy("date"),
+      where("postId", "==", item.id)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newComments = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setComments(newComments);
+    });
+    return unsubscribe;
+  };
+
   // 날짜 계산
   const detailDate = (a) => {
     const milliSeconds = new Date() - a;
@@ -29,6 +56,10 @@ const Post = ({ item }) => {
 
   const nowDate = detailDate(new Date(item.date.toDate()));
 
+  useEffect(() => {
+    getComments();
+  }, []);
+
   return (
     <>
       <TouchableOpacity onPress={moveToDetail}>
@@ -42,9 +73,16 @@ const Post = ({ item }) => {
             <PostDescContianer>
               <PostTitle>{item?.title}</PostTitle>
               <PostDate>{nowDate}</PostDate>
-              <PostPrice>{item?.price}</PostPrice>
+              <PostPrice>
+                {" "}
+                {item?.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+              </PostPrice>
             </PostDescContianer>
           </PostContainer>
+          <CommentIconGroup>
+            <EvilIcons name="comment" size={24} color="black" />
+            <CommentCounterText>{comments.length}</CommentCounterText>
+          </CommentIconGroup>
         </PostView>
       </TouchableOpacity>
       <Line></Line>
