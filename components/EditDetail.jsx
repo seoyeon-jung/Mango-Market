@@ -6,7 +6,7 @@ import { dbService } from "../firebase";
 import { Alert } from "react-native";
 import CustomBtn from "../components/CustomBtn";
 import * as Font from "expo-font";
-import { MANGO_COLOR } from "../colors";
+import { APPLEMANGO_COLOR, MANGO_COLOR } from "../colors";
 
 const EditDetail = ({
   detailItem,
@@ -23,6 +23,11 @@ const EditDetail = ({
   );
   const [content, setContent] = useState("");
   const [price, setPrice] = useState("");
+
+  // 스타일링 state
+  const [isTitleFocused, setIsTitleFocused] = useState(false);
+  const [isPriceFocused, setIsPriceFocused] = useState(false);
+  const [isContentFocused, setIsContentFocused] = useState(false);
 
   const newBoard = {
     userId: currentId,
@@ -51,43 +56,69 @@ const EditDetail = ({
 
   return (
     <>
-      <View style={{ marginTop: 10 }}>
-        <LabelText> 이미지 </LabelText>
-        <InputTitle
-          value={img}
-          onChangeText={setImg}
-          placeholder="변경할 이미지를 입력하세요"
+      <ImgContainer>
+        <View style={{ marginTop: 10 }}>
+          <InputTitle
+            value={img}
+            onChangeText={setImg}
+            placeholder="변경할 이미지를 입력하세요"
+          />
+        </View>
+      </ImgContainer>
+      <InfoBox>
+        <TitleBox>
+          <InputTitle
+            value={title}
+            onChangeText={setTitle}
+            placeholder="변경할 제목을 입력하세요"
+            onBlur={() => {
+              setIsTitleFocused(false);
+            }}
+            onFocus={() => {
+              setIsTitleFocused(true);
+            }}
+            isTitleFocused={isTitleFocused}
+          />
+        </TitleBox>
+        <MarginBox />
+        <TitleBox>
+          <InputTitle
+            keyboardType="number-pad"
+            value={price}
+            onChangeText={setPrice}
+            placeholder="변경할 가격을 입력하세요"
+            onBlur={() => {
+              setIsPriceFocused(false);
+            }}
+            onFocus={() => {
+              setIsPriceFocused(true);
+            }}
+            isPriceFocused={isPriceFocused}
+          />
+        </TitleBox>
+
+        <GroupBox>
+          <DateText>{detailItem.date}</DateText>
+          <UserText>{detailItem.userId} </UserText>
+        </GroupBox>
+        <MarginBox />
+      </InfoBox>
+
+      <ContentBox isContentFocused={isContentFocused}>
+        <InputContent
+          style={{ textAlignVertical: "top" }}
+          multiline={true}
+          onChangeText={setContent}
+          value={content}
+          placeholder="변경할 내용을 입력하세요"
+          onBlur={() => {
+            setIsContentFocused(false);
+          }}
+          onFocus={() => {
+            setIsContentFocused(true);
+          }}
         />
-      </View>
-      <MarginBox />
-      <MarginBox />
-      <InputTitle
-        value={title}
-        onChangeText={setTitle}
-        placeholder="변경할 제목을 입력하세요"
-      />
-
-      <MarginBox />
-
-      <InputTitle
-        keyboardType="number-pad"
-        value={price}
-        onChangeText={setPrice}
-        placeholder="변경할 가격을 입력하세요"
-      />
-      <Text style={{ marginTop: 10 }}> 글 작성 날짜 : {detailItem.date} </Text>
-      <MarginBox />
-      <LabelText> 내용 </LabelText>
-      <InputContent
-        style={{ textAlignVertical: "top" }}
-        multiline={true}
-        onChangeText={setContent}
-        value={content}
-        placeholder="변경할 내용을 입력하세요"
-      />
-
-      <Text> 해당 글 작성자 : {detailItem.userId} </Text>
-
+      </ContentBox>
       <BtnContainer>
         {detailItem.isEdit === true ? (
           <>
@@ -95,11 +126,13 @@ const EditDetail = ({
               btnText="완료"
               detailItem={detailItem}
               handler={updateBoard}
+              color={MANGO_COLOR}
             />
             <CustomBtn
               btnText="취소"
               detailItem={detailItem}
               handler={setEdit}
+              color={APPLEMANGO_COLOR}
             />
           </>
         ) : (
@@ -108,11 +141,13 @@ const EditDetail = ({
               btnText="수정"
               detailItem={detailItem}
               handler={setEdit}
+              color={MANGO_COLOR}
             />
             <CustomBtn
               btnText="삭제"
               detailItem={detailItem}
               handler={deleteBoard}
+              color={APPLEMANGO_COLOR}
             />
           </>
         )}
@@ -127,18 +162,86 @@ const MarginBox = styled.View`
   margin-top: 10px;
 `;
 
-const LabelText = styled.Text`
-  font-family: korail;
-  font-size: 24px;
-  font-weight: 700;
+const ImgContainer = styled.View`
+  height: 30%;
+  width: 100%;
+  justify-items: center;
+  align-self: center;
+`;
+const InfoBox = styled.View`
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  /* border-width: 1px; */
+`;
+
+const TitleBox = styled.View`
+  justify-content: flex-start;
+  margin-bottom: 15px;
+  margin-right: 5px;
 `;
 
 const InputTitle = styled.TextInput`
   height: 40px;
   width: 100%;
 
-  border: 3px solid ${MANGO_COLOR};
+  border-bottom-width: 3px;
+  border-color: ${(props) => {
+    if (props.isPriceFocused || props.isTitleFocused) {
+      return MANGO_COLOR;
+    } else {
+      return "#d1d1d1";
+    }
+  }};
   padding: 10px;
+`;
+
+const PriceText = styled.Text`
+  font-family: korail;
+  font-size: 32px;
+  font-weight: 800;
+`;
+
+const GroupBox = styled.View`
+  margin-top: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+const DateText = styled.Text`
+  font-family: korail;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 7px;
+  color: #d1d1d1;
+`;
+
+const UserText = styled.Text`
+  font-family: korail;
+  font-size: 16px;
+  font-weight: 600;
+  color: #d1d1d1;
+`;
+
+const LabelText = styled.Text`
+  font-family: korail;
+  font-size: 24px;
+  font-weight: 700;
+`;
+
+const ContentBox = styled.View`
+  min-height: 250px;
+  width: 93%;
+  border: 1px solid #d1d1d15f;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 15px;
+  border-color: ${(props) => {
+    if (props.isContentFocused) {
+      return MANGO_COLOR;
+    } else {
+      return "#d1d1d1";
+    }
+  }};
 `;
 
 const InputContent = styled.TextInput`
@@ -146,12 +249,13 @@ const InputContent = styled.TextInput`
   width: 100%;
   padding-left: 0;
   padding-top: 0;
-
-  border: 3px solid ${MANGO_COLOR};
   padding: 10px;
+
+  
 `;
 
 const BtnContainer = styled.View`
   flex-direction: row;
-  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
 `;
