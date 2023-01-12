@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, ScrollView, Image } from "react-native";
 import styled from "@emotion/native";
 import { useEffect, useState } from "react";
 import { doc, getDoc, updateDoc, deleteDoc, setDoc } from "firebase/firestore";
@@ -10,6 +10,7 @@ import { useCallback } from "react";
 
 import { useNavigation } from "@react-navigation/native";
 import CustomBtn from "../components/CustomBtn";
+import Comments from "../components/Comments";
 
 const brandColor = "#ffc800";
 
@@ -238,12 +239,17 @@ const Detail = (props) => {
       ) : (
         <BtnContainer></BtnContainer>
       )}
+
+      {/* comment */}
+      <ScrollView>
+        <Comments postId={itemId} />
+      </ScrollView>
     </DetailContainer>
   );
 };
 
 const DetailContainer = styled.View`
-  flex: 1;
+  //flex: 1;
   padding: 5%;
 `;
 
