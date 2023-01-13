@@ -1,11 +1,10 @@
 import { useFocusEffect } from "@react-navigation/native";
 import Post from "../components/Post";
-import { signOut } from "firebase/auth";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
-import { Image, FlatList, SafeAreaView } from "react-native";
+import { FlatList, SafeAreaView } from "react-native";
 import * as Font from "expo-font";
-
+import { useColorScheme } from "react-native";
 import {
   collection,
   onSnapshot,
@@ -16,12 +15,13 @@ import {
 import { authService, dbService } from "../firebase.js";
 import styled from "@emotion/native";
 import { SCREEN_HEIGHT } from "../util";
-import { useQuery } from "react-query";
 
 export default function Home({ navigation: { navigate, reset } }) {
+  const isDark = useColorScheme() === "dark";
   const [posts, setPosts] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isFontReady, setIsFontReady] = useState(false);
+
 
   const getPostDate = () => {
     const q = query(
@@ -86,14 +86,22 @@ export default function Home({ navigation: { navigate, reset } }) {
 
   return (
     <HomeCotainer>
-      <SafeAreaView style={{ backgroundColor: "white" }}>
+      <SafeAreaView
+        style={
+          isDark ? { backgroundColor: "#1c1e26" } : { backgroundColor: "white" }
+        }
+      >
         {isFontReady && (
           <>
             <Header>
               <TitleText>망고마켓</TitleText>
             </Header>
             <FlatList
-              style={{ backgroundColor: "white", marginBottom: 110 }}
+              style={
+                isDark
+                  ? { backgroundColor: "#1c1e26", marginBottom: 110 }
+                  : { backgroundColor: "white", marginBottom: 110 }
+              }
               refreshing={isRefreshing}
               onRefresh={onRefresh}
               data={posts}
@@ -106,11 +114,21 @@ export default function Home({ navigation: { navigate, reset } }) {
     </HomeCotainer>
   );
 }
+
+const SafeAreaViewContainer = styled.View`
+  background-color: ${(props) => props.theme.backgroundColor};
+`;
+const HomeCotainer = styled.View`
+  flex: 1;
+  background-color: ${(props) => props.theme.backgroundColor};
+`;
+
 const Header = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
+
   height: ${SCREEN_HEIGHT / 8 + "px"};
   margin-top: 10px;
 `;
@@ -119,10 +137,7 @@ const TitleText = styled.Text`
   font-family: korail;
   font-size: 40px;
   font-weight: 5;
-  color: #f4cd43;
-`;
 
-const HomeCotainer = styled.View`
-  flex: 1;
-  background-color: white;
+  color: #f4cd43;
+  /* color: #d1d1d179; */
 `;

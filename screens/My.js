@@ -85,7 +85,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
         headerRight: () => {
           return (
             <TouchableOpacity style={{ marginRight: 10 }} onPress={logout}>
-              <Text>로그아웃</Text>
+              <BtnText>로그아웃</BtnText>
             </TouchableOpacity>
           );
         },
@@ -124,7 +124,7 @@ const My = ({ navigation: { navigate, setOptions, reset } }) => {
 
 export default My;
 const Mycontainer = styled.View`
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
   flex: 1;
 `;
 
@@ -153,7 +153,6 @@ const UserIntroduce = styled.Text`
 `;
 
 const UserNameText = styled.Text`
-  
   font-size: 32px;
   font-weight: 900;
   color: ${MANGO_COLOR};
@@ -184,11 +183,15 @@ const PostListLableContainer = styled.View`
 const PostListLableText = styled.Text`
   font-size: 16px;
   font-weight: 900;
+  color: ${(props) => props.theme.title};
 `;
 
 const PostCounterLable = styled.Text`
   font-size: 16px;
   font-weight: 900;
+  color: ${(props) => props.theme.title};
 `;
 
-// 포스터 카드 관련
+const BtnText = styled.Text`
+  color: ${(props) => props.theme.title};
+`;

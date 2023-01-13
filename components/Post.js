@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, View, Image } from "react-native";
 import styled from "@emotion/native";
 import { SCREEN_WIDTH } from "../util";
 import { EvilIcons } from "@expo/vector-icons";
-import { GRAY_COLOR, MANGO_COLOR } from "../colors";
+
 import { useNavigation } from "@react-navigation/native";
 import {
   collection,
@@ -66,7 +66,6 @@ const Post = ({ item }) => {
         <PostView>
           <PostContainer>
             <PostImg
-              // style={{ width: 60, height: 80 }}
               source={{
                 uri: item.img,
               }}
@@ -99,18 +98,18 @@ const PostView = styled.View`
   padding: 16px;
   width: ${SCREEN_WIDTH};
   height: 150px;
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
   border-radius: 8px;
 `;
+
 const PostContainer = styled.View`
   flex-direction: row;
 `;
 
 const PostImg = styled.Image`
-  height: 118px;
+  height: 130px;
   width: ${SCREEN_WIDTH / 3 + "px"};
   border-radius: 10px;
-  /* width: 100%; */
 `;
 const PostDescContianer = styled.View`
   margin-left: 20px;
@@ -120,8 +119,8 @@ const PostDescContianer = styled.View`
 const PostTitle = styled.Text`
   font-size: 18px;
   margin-top: 10px;
-  /* font-weight: 400; */
-  color: #333;
+
+  color: ${(props) => props.theme.title};
 `;
 const PostDate = styled.Text`
   margin-top: 10px;
@@ -131,7 +130,7 @@ const PostDate = styled.Text`
 const PostPrice = styled.Text`
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: ${(props) => props.theme.title};
 `;
 
 const CommentIconGroup = styled.View`
@@ -149,5 +148,5 @@ const Line = styled.View`
   border-width: 0.5px;
   margin-left: 16px;
   margin-right: 16px;
-  border-color: #d1d1d1;
+  border-color: #d1d1d125;
 `;

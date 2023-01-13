@@ -6,11 +6,14 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import My from "../screens/My";
-import { MANGO_COLOR } from "../colors";
+import { DARK_BLUE, MANGO_COLOR } from "../colors";
+import { useColorScheme } from "react-native";
+import { darkTheme, lightTheme } from "../theme";
 
 const Tab = createBottomTabNavigator();
 
 export default function Tabs() {
+  const isDark = useColorScheme() === "dark";
   return (
     <Tab.Navigator
       screenOptions={{

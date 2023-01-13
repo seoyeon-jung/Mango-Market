@@ -191,6 +191,7 @@ const MarginBox = styled.View`
 
 const DetailContainer = styled.View`
   flex: 1;
+  background-color: ${(props) => props.theme.backgroundColor};
   /* padding: 5%; */
 `;
 
@@ -217,12 +218,14 @@ const TitelText = styled.Text`
   font-family: korail;
   font-size: 40px;
   font-weight: 700;
+  color: ${(props) => props.theme.title};
 `;
 
 const PriceText = styled.Text`
   font-family: korail;
   font-size: 32px;
   font-weight: 800;
+  color: ${(props) => props.theme.title};
 `;
 
 const GroupBox = styled.View`
@@ -257,7 +260,7 @@ const ContentText = styled.Text`
   font-family: korail;
   font-size: 18px;
   font-weight: 700;
-  color: #333;
+  color: ${(props) => props.theme.title};
 `;
 
 const BtnContainer = styled.View`

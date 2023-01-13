@@ -5,6 +5,7 @@ import { Text, TouchableOpacity } from "react-native";
 import { authService } from "../firebase";
 import Detail from "../screens/Detail";
 import Login from "../screens/Login";
+import styled from "@emotion/native";
 
 const NativeStack = createNativeStackNavigator();
 
@@ -47,7 +48,7 @@ export default function Stacks({
           if (authService.currentUser) {
             return (
               <TouchableOpacity onPress={() => goBack()}>
-                <Text>뒤로</Text>
+                <BtnText>뒤로</BtnText>
               </TouchableOpacity>
             );
           }
@@ -55,14 +56,16 @@ export default function Stacks({
         headerRight: () => {
           return (
             <TouchableOpacity onPress={handleAuth}>
-              <Text>{authService.currentUser ? "로그아웃" : "로그인"}</Text>
+              <BtnText>
+                {authService.currentUser ? "로그아웃" : "로그인"}
+              </BtnText>
             </TouchableOpacity>
           );
         },
       }}
     >
       <NativeStack.Screen
-        options={{ headerShown: false, }}
+        options={{ headerShown: false }}
         name="Login"
         component={Login}
       />
@@ -70,3 +73,7 @@ export default function Stacks({
     </NativeStack.Navigator>
   );
 }
+
+const BtnText = styled.Text`
+  color: ${(props) => props.theme.title};
+`;

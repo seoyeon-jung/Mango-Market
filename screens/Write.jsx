@@ -236,7 +236,7 @@ export default Write;
 
 const DetailContainer = styled.ScrollView`
   flex: 1;
-  background-color: white;
+  background-color: ${(props) => props.theme.backgroundColor};
 `;
 
 const ImgContainer = styled.Image`
@@ -264,6 +264,7 @@ const InputBox = styled.TextInput`
     }
   }};
   padding: 10px;
+  color: ${(props) => props.theme.title};
 `;
 
 const ContentBox = styled.View`
@@ -280,6 +281,7 @@ const ContentBox = styled.View`
       return "#d1d1d1";
     }
   }};
+  
 `;
 
 const InputContent = styled.TextInput`
@@ -288,6 +290,7 @@ const InputContent = styled.TextInput`
   padding-left: 0;
   padding-top: 0;
   padding: 10px;
+  color: ${(props) => props.theme.title};
 `;
 
 const BtnContainer = styled.View`
@@ -308,5 +311,5 @@ const BtnText = styled.Text`
   text-align: center;
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: ${(props) => props.theme.btn};
 `;

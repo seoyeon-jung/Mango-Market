@@ -29,7 +29,6 @@ const EditDetail = ({
   currentId,
   setEdit,
   itemId,
-  setDetailItem,
   userIdSplit,
   dateString,
   getData,
@@ -120,6 +119,9 @@ const EditDetail = ({
     await updateDoc(doc(dbService, "posts", detailItem.id), {
       ...newBoard,
     });
+
+    getData();
+    setTitle("");
     setContent("");
     setPrice("");
     setTitle("");
@@ -280,12 +282,14 @@ const InputBox = styled.TextInput`
     }
   }};
   padding: 10px;
+  color: ${(props) => props.theme.title};
 `;
 
 const PriceText = styled.Text`
   font-family: korail;
   font-size: 32px;
   font-weight: 800;
+  color: ${(props) => props.theme.title};
 `;
 
 const GroupBox = styled.View`
@@ -305,13 +309,14 @@ const UserText = styled.Text`
   font-family: korail;
   font-size: 16px;
   font-weight: 600;
-  color: #d1d1d1;
+  color: ${MANGO_COLOR};
 `;
 
 const LabelText = styled.Text`
   font-family: korail;
   font-size: 24px;
   font-weight: 700;
+  color: ${(props) => props.theme.title};
 `;
 
 const ContentBox = styled.View`
@@ -336,6 +341,7 @@ const InputContent = styled.TextInput`
   padding-left: 0;
   padding-top: 0;
   padding: 10px;
+  color: ${(props) => props.theme.title};
 `;
 
 const BtnContainer = styled.View`
