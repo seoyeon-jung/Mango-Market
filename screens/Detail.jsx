@@ -179,6 +179,7 @@ const Detail = (props) => {
               ) : (
                 <BtnContainer></BtnContainer>
               )}
+              <Comments postId={itemId} />
             </ScrollView>
           </>
         ))}

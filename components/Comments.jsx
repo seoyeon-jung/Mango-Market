@@ -146,7 +146,7 @@ function Comments({ postId }) {
                   defaultValue={item.comment}
                 />
               ) : (
-                <Text>{item.comment}</Text>
+                <CommentText>{item.comment}</CommentText>
               )}
 
               {authService.currentUser.uid === item.userId ? (
@@ -192,6 +192,7 @@ const CommentContainer = styled.View`
 
 const CommentHeader = styled.Text`
   font-size: 20px;
+  color: ${(props) => props.theme.title};
 `;
 
 const CommentInputBox = styled.View`
@@ -212,6 +213,7 @@ const CommentInput = styled.TextInput`
     }
   }};
   padding: 10px;
+  color: ${(props) => props.theme.title};
 `;
 
 const CommentBtn = styled.TouchableOpacity`
@@ -223,7 +225,7 @@ const CommentBtn = styled.TouchableOpacity`
 `;
 
 const BtnText = styled.Text`
-  color: white;
+  color: ${(props) => props.theme.btn};
 `;
 
 const CommentList = styled.View``;
@@ -247,6 +249,10 @@ const CommentEditInput = styled.TextInput`
     }
   }};
   padding: 10px;
+`;
+
+const CommentText = styled.Text`
+  color: ${(props) => props.theme.title};
 `;
 
 export default Comments;
