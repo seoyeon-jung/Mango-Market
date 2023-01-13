@@ -5,6 +5,7 @@ import {
   Image,
   Alert,
   Button,
+  ScrollView,
 } from "react-native";
 import styled from "@emotion/native";
 import { useEffect, useRef, useState } from "react";
@@ -165,67 +166,69 @@ const Write = ({ navigation }) => {
             />
           )}
           <Button title="사진 추가" onPress={pickImage} />
-          <BtnContainer>
-            <TouchableOpacity
-              onPress={() => {
-                uploadImage();
-              }}
-              style={{ margin: 10 }}
-            >
-              <ButtonView>
-                <BtnText> 글쓰기 </BtnText>
-              </ButtonView>
-            </TouchableOpacity>
-          </BtnContainer>
-          <InfoBox>
-            <View>
-              <InputBox
-                value={title}
-                onChangeText={setTitle}
-                placeholder="상품 이름을 입력해주세요."
-                ref={titleRef}
+          <ScrollView>
+            <InfoBox>
+              <View>
+                <InputBox
+                  value={title}
+                  onChangeText={setTitle}
+                  placeholder="상품 이름을 입력해주세요."
+                  ref={titleRef}
+                  onBlur={() => {
+                    setIsTitleFocused(false);
+                  }}
+                  onFocus={() => {
+                    setIsTitleFocused(true);
+                  }}
+                  isTitleFocused={isTitleFocused}
+                />
+              </View>
+              <View style={{ marginTop: 20 }}>
+                <InputBox
+                  keyboardType="number-pad"
+                  value={price}
+                  onChangeText={setPrice}
+                  placeholder="상품 가격을 입력해주세요."
+                  ref={priceRef}
+                  onBlur={() => {
+                    setIsPriceFocused(false);
+                  }}
+                  onFocus={() => {
+                    setIsPriceFocused(true);
+                  }}
+                  isPriceFocused={isPriceFocused}
+                />
+              </View>
+            </InfoBox>
+            <ContentBox isContentFocused={isContentFocused}>
+              <InputContent
+                style={{ textAlignVertical: "top" }}
+                multiline={true}
+                onChangeText={setContent}
+                value={content}
+                placeholder="상품 설명을 입력해주세요."
+                ref={contentRef}
                 onBlur={() => {
-                  setIsTitleFocused(false);
+                  setIsContentFocused(false);
                 }}
                 onFocus={() => {
-                  setIsTitleFocused(true);
+                  setIsContentFocused(true);
                 }}
-                isTitleFocused={isTitleFocused}
               />
-            </View>
-            <View style={{ marginTop: 20 }}>
-              <InputBox
-                keyboardType="number-pad"
-                value={price}
-                onChangeText={setPrice}
-                placeholder="상품 가격을 입력해주세요."
-                ref={priceRef}
-                onBlur={() => {
-                  setIsPriceFocused(false);
+            </ContentBox>
+            <BtnContainer>
+              <TouchableOpacity
+                onPress={() => {
+                  uploadImage();
                 }}
-                onFocus={() => {
-                  setIsPriceFocused(true);
-                }}
-                isPriceFocused={isPriceFocused}
-              />
-            </View>
-          </InfoBox>
-          <ContentBox isContentFocused={isContentFocused}>
-            <InputContent
-              style={{ textAlignVertical: "top" }}
-              multiline={true}
-              onChangeText={setContent}
-              value={content}
-              placeholder="상품 설명을 입력해주세요."
-              ref={contentRef}
-              onBlur={() => {
-                setIsContentFocused(false);
-              }}
-              onFocus={() => {
-                setIsContentFocused(true);
-              }}
-            />
-          </ContentBox>
+                style={{ margin: 10 }}
+              >
+                <ButtonView>
+                  <BtnText> 글쓰기 </BtnText>
+                </ButtonView>
+              </TouchableOpacity>
+            </BtnContainer>
+          </ScrollView>
         </>
       )}
     </DetailContainer>
@@ -237,10 +240,11 @@ export default Write;
 const DetailContainer = styled.ScrollView`
   flex: 1;
   background-color: ${(props) => props.theme.backgroundColor};
+  border-width: 1px;
 `;
 
 const ImgContainer = styled.Image`
-  height: 30%;
+  min-height: 150px;
   width: 100%;
   justify-items: center;
   align-self: center;

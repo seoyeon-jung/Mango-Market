@@ -260,8 +260,9 @@ const ContentBox = styled.View`
 `;
 const ContentText = styled.Text`
   font-family: korail;
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
   color: ${(props) => props.theme.title};
 `;
 
