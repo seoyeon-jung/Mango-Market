@@ -243,7 +243,8 @@ const InputBox = styled.TextInput`
   width: ${SCREEN_WIDTH / 1.5 + "px"};
   height: 40px;
   border-radius: 10px;
-  border: 3px solid;
+  /* border: 3px solid transparent; */
+  border-width: 3px;
   border-color: ${(props) => {
     if (props.isEmailFocused || props.isPWFocused) {
       return APPLEMANGO_COLOR;
