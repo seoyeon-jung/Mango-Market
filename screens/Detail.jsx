@@ -133,7 +133,7 @@ const Detail = (props) => {
           />
         ) : (
           <>
-            <ImageContainer style={{ padding: 10 }}>
+            <ImageContainer>
               <Image
                 style={{ flex: 1 }}
                 source={{
