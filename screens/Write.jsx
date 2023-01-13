@@ -126,6 +126,7 @@ const Write = ({ navigation }) => {
     setContent("");
     setTitle("");
     setPrice("");
+    Alert.alert("작성 완료");
     navigation.navigate("Home");
   };
 

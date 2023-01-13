@@ -84,6 +84,7 @@ const Detail = (props) => {
         style: "destructive",
         onPress: async () => {
           await deleteDoc(doc(dbService, "posts", itemId));
+          Alert.alert("삭제 완료");
           navigate("Home");
         },
       },
