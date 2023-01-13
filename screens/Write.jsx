@@ -165,7 +165,18 @@ const Write = ({ navigation }) => {
             />
           )}
           <Button title="사진 추가" onPress={pickImage} />
-
+          <BtnContainer>
+            <TouchableOpacity
+              onPress={() => {
+                uploadImage();
+              }}
+              style={{ margin: 10 }}
+            >
+              <ButtonView>
+                <BtnText> 글쓰기 </BtnText>
+              </ButtonView>
+            </TouchableOpacity>
+          </BtnContainer>
           <InfoBox>
             <View>
               <InputBox
@@ -215,18 +226,6 @@ const Write = ({ navigation }) => {
               }}
             />
           </ContentBox>
-          <BtnContainer>
-            <TouchableOpacity
-              onPress={() => {
-                uploadImage();
-              }}
-              style={{ margin: 10 }}
-            >
-              <ButtonView>
-                <BtnText> 글쓰기 </BtnText>
-              </ButtonView>
-            </TouchableOpacity>
-          </BtnContainer>
         </>
       )}
     </DetailContainer>
