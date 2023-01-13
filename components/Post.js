@@ -80,7 +80,7 @@ const Post = ({ item }) => {
             </PostDescContianer>
           </PostContainer>
           <CommentIconGroup>
-            <EvilIcons name="comment" size={24} color="black" />
+            <EvilIcons name="comment" size={24} color="#c0c0c0" />
             <CommentCounterText>{comments.length}</CommentCounterText>
           </CommentIconGroup>
         </PostView>
@@ -136,7 +136,8 @@ const PostPrice = styled.Text`
 const CommentIconGroup = styled.View`
   position: absolute;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   bottom: 0;
   right: 0;
 `;

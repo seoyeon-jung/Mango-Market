@@ -283,6 +283,9 @@ const InputBox = styled.TextInput`
   }};
   padding: 10px;
   color: ${(props) => props.theme.title};
+  font-family: korail;
+  font-size: 16px;
+  font-weight: 700;
 `;
 
 const PriceText = styled.Text`

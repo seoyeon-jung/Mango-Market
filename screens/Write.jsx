@@ -165,18 +165,6 @@ const Write = ({ navigation }) => {
           )}
           <Button title="사진 추가" onPress={pickImage} />
 
-          <BtnContainer>
-            <TouchableOpacity
-              onPress={() => {
-                uploadImage();
-              }}
-              style={{ margin: 10 }}
-            >
-              <ButtonView>
-                <BtnText> 글쓰기 </BtnText>
-              </ButtonView>
-            </TouchableOpacity>
-          </BtnContainer>
           <InfoBox>
             <View>
               <InputBox
@@ -226,6 +214,18 @@ const Write = ({ navigation }) => {
               }}
             />
           </ContentBox>
+          <BtnContainer>
+            <TouchableOpacity
+              onPress={() => {
+                uploadImage();
+              }}
+              style={{ margin: 10 }}
+            >
+              <ButtonView>
+                <BtnText> 글쓰기 </BtnText>
+              </ButtonView>
+            </TouchableOpacity>
+          </BtnContainer>
         </>
       )}
     </DetailContainer>
@@ -265,6 +265,9 @@ const InputBox = styled.TextInput`
   }};
   padding: 10px;
   color: ${(props) => props.theme.title};
+  font-family: korail;
+  font-size: 16px;
+  font-weight: 700;
 `;
 
 const ContentBox = styled.View`
@@ -281,7 +284,6 @@ const ContentBox = styled.View`
       return "#d1d1d1";
     }
   }};
-  
 `;
 
 const InputContent = styled.TextInput`
