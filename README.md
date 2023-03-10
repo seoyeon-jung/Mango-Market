@@ -11,13 +11,6 @@
 <br>
 <br>
 
-## 망고 마켓 앱 바로가기
-- ios QR Code <br>
-![image](https://user-images.githubusercontent.com/95006849/212219672-0d66d65f-a7ff-4478-acd5-a3cbe97a048d.png)
-- Android QR Code <br>
-![image](https://user-images.githubusercontent.com/95006849/212219743-e30af983-256e-4e47-bc21-5a8084905dd8.png)
-<br>
-<br>
 
 ## 망고마켓 실제 작동 이미지
 - 로그인 <br>
